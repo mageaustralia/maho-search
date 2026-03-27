@@ -831,7 +831,7 @@ class Writer
 
         \Maho\Search\Lucene\LockManager::releaseWriteLock($this->_directory);
 
-        return '_' . base_convert($segmentNameCounter, 10, 36);
+        return '_' . base_convert((string) $segmentNameCounter, 10, 36);
     }
 
 }

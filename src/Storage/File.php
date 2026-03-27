@@ -119,7 +119,7 @@ abstract class File
      */
     public function writeByte($byte)
     {
-        return $this->_fwrite(chr($byte), 1);
+        return $this->_fwrite(chr((int) $byte), 1);
     }
 
     /**

@@ -329,7 +329,7 @@ class Lucene implements \Maho\Search\Lucene\LuceneInterface
             return 'segments';
         }
 
-        return 'segments_' . base_convert($generation, 10, 36);
+        return 'segments_' . base_convert((string) $generation, 10, 36);
     }
 
     /**

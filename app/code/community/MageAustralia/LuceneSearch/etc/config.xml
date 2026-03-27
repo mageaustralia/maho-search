@@ -80,7 +80,7 @@
                 <use>standard</use>
                 <args>
                     <module>MageAustralia_LuceneSearch</module>
-                    <frontName>api/search</frontName>
+                    <frontName>lucenesearch</frontName>
                 </args>
             </lucenesearch>
         </routers>

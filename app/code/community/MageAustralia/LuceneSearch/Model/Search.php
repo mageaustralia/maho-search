@@ -78,7 +78,7 @@ class MageAustralia_LuceneSearch_Model_Search
                     case 'product':
                         $products[] = [
                             'id' => $entityId,
-                            'sku' => $doc->getFieldValue('sku'),
+                            'sku' => $doc->getFieldValue('sku_stored'),
                             'name' => $doc->getFieldValue('name_stored'),
                             'urlKey' => $doc->getFieldValue('url_key'),
                             'price' => (float) $doc->getFieldValue('price'),
@@ -144,8 +144,8 @@ class MageAustralia_LuceneSearch_Model_Search
             return [];
         }
 
-        // Escape special Lucene characters in user query
-        $escapedQuery = $this->_escapeQuery($queryString);
+        // Sanitize user query (strip special Lucene characters)
+        $escapedQuery = $this->_sanitizeQuery($queryString);
 
         // 1. Try AND mode (all terms must match)
         try {
@@ -188,15 +188,15 @@ class MageAustralia_LuceneSearch_Model_Search
     }
 
     /**
-     * Escape special Lucene query characters.
+     * Sanitize user query — remove characters that break query parsing.
+     * We strip rather than escape, as escaped special chars can still cause issues.
      */
-    private function _escapeQuery(string $query): string
+    private function _sanitizeQuery(string $query): string
     {
-        $specialChars = ['\\', '+', '-', '&&', '||', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '*', '?', ':', '/'];
-        foreach ($specialChars as $char) {
-            $query = str_replace($char, '\\' . $char, $query);
-        }
-        return $query;
+        // Remove Lucene special characters that users don't intend
+        $query = preg_replace('/[+\-!(){}\[\]^"~*?:\\\\\/&|]/', ' ', $query);
+        // Collapse whitespace
+        return trim(preg_replace('/\s+/', ' ', $query));
     }
 
     private function _getProductImageUrl(?string $image, int $storeId): ?string

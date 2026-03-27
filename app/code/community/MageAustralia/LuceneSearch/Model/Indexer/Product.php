@@ -130,7 +130,8 @@ class MageAustralia_LuceneSearch_Model_Indexer_Product
         $doc->addField(Field::keyword('_entity_id', (string) $product->getId()));
 
         // Store product data as unindexed fields for retrieval
-        $doc->addField(Field::unIndexed('sku', (string) $product->getSku()));
+        // Use _stored suffix to avoid collision with searchable fields of same name
+        $doc->addField(Field::unIndexed('sku_stored', (string) $product->getSku()));
         $doc->addField(Field::unIndexed('name_stored', (string) $product->getName()));
         $doc->addField(Field::unIndexed('url_key', (string) $product->getUrlKey()));
         $doc->addField(Field::unIndexed('price', (string) $product->getPrice()));
