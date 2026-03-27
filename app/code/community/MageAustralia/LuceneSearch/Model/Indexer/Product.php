@@ -160,6 +160,18 @@ class MageAustralia_LuceneSearch_Model_Indexer_Product
             $allSearchableText[] = $value;
         }
 
+        // For composite products (configurable, grouped, bundle), aggregate
+        // searchable attribute values from child products so searching for
+        // a child's color/size/etc. finds the parent.
+        $childValues = $this->_getChildAttributeValues($product, $storeId, $attributes);
+        if ($childValues !== '') {
+            $expandedChildren = $synonymFilter->expandForIndex($childValues);
+            $field = Field::unstored('_children', $expandedChildren);
+            $field->boost = 0.8; // Slightly lower than direct attributes
+            $doc->addField($field);
+            $allSearchableText[] = $childValues;
+        }
+
         // Index category paths
         if ($helper->isProductCategoryPathsEnabled($storeId)) {
             $categoryPaths = $this->_getCategoryPaths($product, $storeId);
@@ -180,6 +192,63 @@ class MageAustralia_LuceneSearch_Model_Indexer_Product
         }
 
         return $doc;
+    }
+
+    /**
+     * Aggregate searchable attribute values from child products.
+     * For configurable: collects all unique values of color, size, etc. from simples.
+     * For grouped/bundle: collects name, sku, etc. from associated products.
+     */
+    private function _getChildAttributeValues(
+        Mage_Catalog_Model_Product $product,
+        int $storeId,
+        array $attributes
+    ): string {
+        $typeId = $product->getTypeId();
+
+        if ($typeId === Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
+            $childProducts = Mage::getModel('catalog/product_type_configurable')
+                ->getUsedProducts(null, $product);
+        } elseif ($typeId === Mage_Catalog_Model_Product_Type::TYPE_GROUPED) {
+            $childProducts = $product->getTypeInstance(true)
+                ->getAssociatedProducts($product);
+        } elseif ($typeId === Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+            $childProducts = [];
+            $selections = $product->getTypeInstance(true)
+                ->getSelectionsCollection(
+                    $product->getTypeInstance(true)->getOptionsIds($product),
+                    $product
+                );
+            foreach ($selections as $selection) {
+                $childProducts[] = $selection;
+            }
+        } else {
+            return '';
+        }
+
+        if (empty($childProducts)) {
+            return '';
+        }
+
+        $values = [];
+        foreach ($childProducts as $child) {
+            // Load with store context if not already loaded
+            if (!$child->hasData('name')) {
+                $child = Mage::getModel('catalog/product')
+                    ->setStoreId($storeId)
+                    ->load($child->getId());
+            }
+
+            foreach ($attributes as $attrCode) {
+                $value = $this->_getAttributeValue($child, $attrCode);
+                if ($value !== '') {
+                    $values[] = $value;
+                }
+            }
+        }
+
+        // Deduplicate and join
+        return implode(' ', array_unique($values));
     }
 
     /**
