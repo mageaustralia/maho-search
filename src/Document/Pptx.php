@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Document;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,28 +16,21 @@ namespace Maho\Search\Lucene\Document;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Document
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** \Maho\Search\Lucene\Xml\Security */
-// require_once 'Zend/Xml/Security.php';
 
 /** \Maho\Search\Lucene\Document\OpenXml */
-// require_once 'Zend/Search/Lucene/Document/OpenXml.php';
 
 /**
  * Pptx document.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Document
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Pptx extends \Maho\Search\Lucene\Document\OpenXml
 {
@@ -80,7 +72,6 @@ class Pptx extends \Maho\Search\Lucene\Document\OpenXml
     private function __construct($fileName, $storeContent)
     {
         if (!class_exists('ZipArchive', false)) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('MS Office documents processing functionality requires Zip extension to be loaded');
         }
 
@@ -97,7 +88,6 @@ class Pptx extends \Maho\Search\Lucene\Document\OpenXml
         // Read relations and search for officeDocument
         $relationsXml = $package->getFromName('_rels/.rels');
         if ($relationsXml === false) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Invalid archive or corrupted .pptx file.');
         }
         $relations = \Maho\Search\Lucene\Xml\Security::scan($relationsXml);

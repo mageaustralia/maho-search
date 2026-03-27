@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Storage\File;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,23 +16,17 @@ namespace Maho\Search\Lucene\Storage\File;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Storage
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** \Maho\Search\Lucene\Storage\File */
-// require_once 'Zend/Search/Lucene/Storage/File.php';
 
 /**
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Storage
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Filesystem extends \Maho\Search\Lucene\Storage\File
 {
@@ -55,7 +48,6 @@ class Filesystem extends \Maho\Search\Lucene\Storage\File
 
         if (strpos($mode, 'w') === false  &&  !is_readable($filename)) {
             // opening for reading non-readable file
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('File \'' . $filename . '\' is not readable.');
         }
 
@@ -65,7 +57,6 @@ class Filesystem extends \Maho\Search\Lucene\Storage\File
         if ($this->_fileHandle === false) {
             $err = error_get_last();
             $phpErrormsg = isset($err['message'][0]) ? $err['message'] : null;
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception($phpErrormsg);
         }
     }
@@ -161,7 +152,6 @@ class Filesystem extends \Maho\Search\Lucene\Storage\File
         while ($length > 0 && !feof($this->_fileHandle)) {
             $nextBlock = fread($this->_fileHandle, $length);
             if ($nextBlock === false) {
-                // require_once 'Zend/Search/Lucene/Exception.php';
                 throw new \Maho\Search\Lucene\Exception( "Error occured while file reading." );
             }
 
@@ -169,7 +159,6 @@ class Filesystem extends \Maho\Search\Lucene\Storage\File
             $length -= strlen($nextBlock);
         }
         if ($length != 0) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception( "Error occured while file reading." );
         }
 

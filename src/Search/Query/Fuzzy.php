@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Search\Query;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,23 +16,17 @@ namespace Maho\Search\Lucene\Search\Query;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** \Maho\Search\Lucene\Search\Query */
-// require_once 'Zend/Search/Lucene/Search/Query.php';
 
 /**
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Fuzzy extends \Maho\Search\Lucene\Search\Query
 {
@@ -125,15 +118,12 @@ class Fuzzy extends \Maho\Search\Lucene\Search\Query
     public function __construct(\Maho\Search\Lucene\Index\Term $term, $minimumSimilarity = self::DEFAULT_MIN_SIMILARITY, $prefixLength = null)
     {
         if ($minimumSimilarity < 0) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('minimumSimilarity cannot be less than 0');
         }
         if ($minimumSimilarity >= 1) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('minimumSimilarity cannot be greater than or equal to 1');
         }
         if ($prefixLength < 0) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('prefixLength cannot be less than 0');
         }
 
@@ -196,7 +186,6 @@ class Fuzzy extends \Maho\Search\Lucene\Search\Query
             $fields = array($this->_term->field);
         }
 
-        // require_once 'Zend/Search/Lucene/Index/Term.php';
         $prefix           = \Maho\Search\Lucene\Index\Term::getPrefix($this->_term->text, $this->_prefixLength);
         $prefixByteLength = strlen($prefix);
         $prefixUtf8Length = \Maho\Search\Lucene\Index\Term::getLength($prefix);
@@ -209,12 +198,10 @@ class Fuzzy extends \Maho\Search\Lucene\Search\Query
 
         $scaleFactor = 1/(1 - $this->_minimumSimilarity);
 
-        // require_once 'Zend/Search/Lucene.php';
         $maxTerms = \Maho\Search\Lucene\Lucene::getTermsPerQueryLimit();
         foreach ($fields as $field) {
             $index->resetTermsStream();
 
-            // require_once 'Zend/Search/Lucene/Index/Term.php';
             if ($prefix != '') {
                 $index->skipTo(new \Maho\Search\Lucene\Index\Term($prefix, $field));
 
@@ -252,7 +239,6 @@ class Fuzzy extends \Maho\Search\Lucene\Search\Query
                         $this->_scores[]   = ($similarity - $this->_minimumSimilarity)*$scaleFactor;
 
                         if ($maxTerms != 0  &&  count($this->_matches) > $maxTerms) {
-                            // require_once 'Zend/Search/Lucene/Exception.php';
                             throw new \Maho\Search\Lucene\Exception('Terms per query limit is reached.');
                         }
                     }
@@ -288,7 +274,6 @@ class Fuzzy extends \Maho\Search\Lucene\Search\Query
                         $this->_scores[]   = ($similarity - $this->_minimumSimilarity)*$scaleFactor;
 
                         if ($maxTerms != 0  &&  count($this->_matches) > $maxTerms) {
-                            // require_once 'Zend/Search/Lucene/Exception.php';
                             throw new \Maho\Search\Lucene\Exception('Terms per query limit is reached.');
                         }
                     }
@@ -301,13 +286,10 @@ class Fuzzy extends \Maho\Search\Lucene\Search\Query
         }
 
         if (count($this->_matches) == 0) {
-            // require_once 'Zend/Search/Lucene/Search/Query/Empty.php';
             return new \Maho\Search\Lucene\Search\Query\EmptyQuery();
         } else if (count($this->_matches) == 1) {
-            // require_once 'Zend/Search/Lucene/Search/Query/Term.php';
             return new \Maho\Search\Lucene\Search\Query\Term(reset($this->_matches));
         } else {
-            // require_once 'Zend/Search/Lucene/Search/Query/Boolean.php';
             $rewrittenQuery = new \Maho\Search\Lucene\Search\Query\BooleanQuery();
 
             array_multisort($this->_scores,   SORT_DESC, SORT_NUMERIC,
@@ -315,7 +297,6 @@ class Fuzzy extends \Maho\Search\Lucene\Search\Query
                             $this->_matches);
 
             $termCount = 0;
-            // require_once 'Zend/Search/Lucene/Search/Query/Term.php';
             foreach ($this->_matches as $id => $matchedTerm) {
                 $subquery = new \Maho\Search\Lucene\Search\Query\Term($matchedTerm);
                 $subquery->setBoost($this->_scores[$id]);
@@ -340,7 +321,6 @@ class Fuzzy extends \Maho\Search\Lucene\Search\Query
      */
     public function optimize(\Maho\Search\Lucene\LuceneInterface $index)
     {
-        // require_once 'Zend/Search/Lucene/Exception.php';
         throw new \Maho\Search\Lucene\Exception('Fuzzy query should not be directly used for search. Use $query->rewrite($index)');
     }
 
@@ -353,7 +333,6 @@ class Fuzzy extends \Maho\Search\Lucene\Search\Query
     public function getQueryTerms()
     {
         if ($this->_matches === null) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Search or rewrite operations have to be performed before.');
         }
 
@@ -369,7 +348,6 @@ class Fuzzy extends \Maho\Search\Lucene\Search\Query
      */
     public function createWeight(\Maho\Search\Lucene\LuceneInterface $reader)
     {
-        // require_once 'Zend/Search/Lucene/Exception.php';
         throw new \Maho\Search\Lucene\Exception('Fuzzy query should not be directly used for search. Use $query->rewrite($index)');
     }
 
@@ -383,7 +361,6 @@ class Fuzzy extends \Maho\Search\Lucene\Search\Query
      */
     public function execute(\Maho\Search\Lucene\LuceneInterface $reader, $docsFilter = null)
     {
-        // require_once 'Zend/Search/Lucene/Exception.php';
         throw new \Maho\Search\Lucene\Exception('Fuzzy query should not be directly used for search. Use $query->rewrite($index)');
     }
 
@@ -397,7 +374,6 @@ class Fuzzy extends \Maho\Search\Lucene\Search\Query
      */
     public function matchedDocs()
     {
-        // require_once 'Zend/Search/Lucene/Exception.php';
         throw new \Maho\Search\Lucene\Exception('Fuzzy query should not be directly used for search. Use $query->rewrite($index)');
     }
 
@@ -411,7 +387,6 @@ class Fuzzy extends \Maho\Search\Lucene\Search\Query
      */
     public function score($docId, \Maho\Search\Lucene\LuceneInterface $reader)
     {
-        // require_once 'Zend/Search/Lucene/Exception.php';
         throw new \Maho\Search\Lucene\Exception('Fuzzy query should not be directly used for search. Use $query->rewrite($index)');
     }
 
@@ -424,7 +399,6 @@ class Fuzzy extends \Maho\Search\Lucene\Search\Query
     {
         $words = array();
 
-        // require_once 'Zend/Search/Lucene/Index/Term.php';
         $prefix           = \Maho\Search\Lucene\Index\Term::getPrefix($this->_term->text, $this->_prefixLength);
         $prefixByteLength = strlen($prefix);
         $prefixUtf8Length = \Maho\Search\Lucene\Index\Term::getLength($prefix);
@@ -438,7 +412,6 @@ class Fuzzy extends \Maho\Search\Lucene\Search\Query
         $scaleFactor = 1/(1 - $this->_minimumSimilarity);
 
         $docBody = $highlighter->getDocument()->getFieldUtf8Value('body');
-        // require_once 'Zend/Search/Lucene/Analysis/Analyzer.php';
         $tokens = \Maho\Search\Lucene\Analysis\Analyzer::getDefault()->tokenize($docBody, 'UTF-8');
         foreach ($tokens as $token) {
             $termText = $token->getTermText();

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Search\Query;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,23 +16,17 @@ namespace Maho\Search\Lucene\Search\Query;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** \Maho\Search\Lucene\Search\Query */
-// require_once 'Zend/Search/Lucene/Search/Query.php';
 
 /**
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Wildcard extends \Maho\Search\Lucene\Search\Query
 {
@@ -144,7 +137,6 @@ class Wildcard extends \Maho\Search\Lucene\Search\Query
         $matchExpression = '/^' . str_replace(array('\\?', '\\*'), array('.', '.*') , preg_quote($this->_pattern->text, '/')) . '$/';
 
         if ($prefixLength < self::$_minPrefixLength) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('At least ' . self::$_minPrefixLength . ' non-wildcard characters are required at the beginning of pattern.');
         }
 
@@ -159,7 +151,6 @@ class Wildcard extends \Maho\Search\Lucene\Search\Query
         foreach ($fields as $field) {
             $index->resetTermsStream();
 
-            // require_once 'Zend/Search/Lucene/Index/Term.php';
             if ($prefix != '') {
                 $index->skipTo(new \Maho\Search\Lucene\Index\Term($prefix, $field));
 
@@ -170,7 +161,6 @@ class Wildcard extends \Maho\Search\Lucene\Search\Query
                         $this->_matches[] = $index->currentTerm();
 
                         if ($maxTerms != 0  &&  count($this->_matches) > $maxTerms) {
-                            // require_once 'Zend/Search/Lucene/Exception.php';
                             throw new \Maho\Search\Lucene\Exception('Terms per query limit is reached.');
                         }
                     }
@@ -185,7 +175,6 @@ class Wildcard extends \Maho\Search\Lucene\Search\Query
                         $this->_matches[] = $index->currentTerm();
 
                         if ($maxTerms != 0  &&  count($this->_matches) > $maxTerms) {
-                            // require_once 'Zend/Search/Lucene/Exception.php';
                             throw new \Maho\Search\Lucene\Exception('Terms per query limit is reached.');
                         }
                     }
@@ -198,13 +187,10 @@ class Wildcard extends \Maho\Search\Lucene\Search\Query
         }
 
         if (count($this->_matches) == 0) {
-            // require_once 'Zend/Search/Lucene/Search/Query/Empty.php';
             return new \Maho\Search\Lucene\Search\Query\EmptyQuery();
         } else if (count($this->_matches) == 1) {
-            // require_once 'Zend/Search/Lucene/Search/Query/Term.php';
             return new \Maho\Search\Lucene\Search\Query\Term(reset($this->_matches));
         } else {
-            // require_once 'Zend/Search/Lucene/Search/Query/MultiTerm.php';
             $rewrittenQuery = new \Maho\Search\Lucene\Search\Query\MultiTerm();
 
             foreach ($this->_matches as $matchedTerm) {
@@ -223,7 +209,6 @@ class Wildcard extends \Maho\Search\Lucene\Search\Query
      */
     public function optimize(\Maho\Search\Lucene\LuceneInterface $index)
     {
-        // require_once 'Zend/Search/Lucene/Exception.php';
         throw new \Maho\Search\Lucene\Exception('Wildcard query should not be directly used for search. Use $query->rewrite($index)');
     }
 
@@ -246,7 +231,6 @@ class Wildcard extends \Maho\Search\Lucene\Search\Query
     public function getQueryTerms()
     {
         if ($this->_matches === null) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Search has to be performed first to get matched terms');
         }
 
@@ -262,7 +246,6 @@ class Wildcard extends \Maho\Search\Lucene\Search\Query
      */
     public function createWeight(\Maho\Search\Lucene\LuceneInterface $reader)
     {
-        // require_once 'Zend/Search/Lucene/Exception.php';
         throw new \Maho\Search\Lucene\Exception('Wildcard query should not be directly used for search. Use $query->rewrite($index)');
     }
 
@@ -276,7 +259,6 @@ class Wildcard extends \Maho\Search\Lucene\Search\Query
      */
     public function execute(\Maho\Search\Lucene\LuceneInterface $reader, $docsFilter = null)
     {
-        // require_once 'Zend/Search/Lucene/Exception.php';
         throw new \Maho\Search\Lucene\Exception('Wildcard query should not be directly used for search. Use $query->rewrite($index)');
     }
 
@@ -290,7 +272,6 @@ class Wildcard extends \Maho\Search\Lucene\Search\Query
      */
     public function matchedDocs()
     {
-        // require_once 'Zend/Search/Lucene/Exception.php';
         throw new \Maho\Search\Lucene\Exception('Wildcard query should not be directly used for search. Use $query->rewrite($index)');
     }
 
@@ -304,7 +285,6 @@ class Wildcard extends \Maho\Search\Lucene\Search\Query
      */
     public function score($docId, \Maho\Search\Lucene\LuceneInterface $reader)
     {
-        // require_once 'Zend/Search/Lucene/Exception.php';
         throw new \Maho\Search\Lucene\Exception('Wildcard query should not be directly used for search. Use $query->rewrite($index)');
     }
 
@@ -325,7 +305,6 @@ class Wildcard extends \Maho\Search\Lucene\Search\Query
         }
 
         $docBody = $highlighter->getDocument()->getFieldUtf8Value('body');
-        // require_once 'Zend/Search/Lucene/Analysis/Analyzer.php';
         $tokens = \Maho\Search\Lucene\Analysis\Analyzer::getDefault()->tokenize($docBody, 'UTF-8');
         foreach ($tokens as $token) {
             if (preg_match($matchExpression, $token->getTermText()) === 1) {

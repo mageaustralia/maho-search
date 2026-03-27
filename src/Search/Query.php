@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Search;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,20 +16,15 @@ namespace Maho\Search\Lucene\Search;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /**
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Query
 {
@@ -189,12 +183,10 @@ abstract class Query
     public function highlightMatches($inputHTML, $defaultEncoding = '', $highlighter = null)
     {
         if ($highlighter === null) {
-            // require_once 'Zend/Search/Lucene/Search/Highlighter/Default.php';
             $highlighter = new \Maho\Search\Lucene\Search\Highlighter\DefaultHighlighter();
         }
 
         /** \Maho\Search\Lucene\Document\Html */
-        // require_once 'Zend/Search/Lucene/Document/Html.php';
 
         $doc = \Maho\Search\Lucene\Document\Html::loadHTML($inputHTML, false, $defaultEncoding);
         $highlighter->setDocument($doc);
@@ -215,7 +207,6 @@ abstract class Query
     public function htmlFragmentHighlightMatches($inputHtmlFragment, $encoding = 'UTF-8', $highlighter = null)
     {
         if ($highlighter === null) {
-            // require_once 'Zend/Search/Lucene/Search/Highlighter/Default.php';
             $highlighter = new \Maho\Search\Lucene\Search\Highlighter\DefaultHighlighter();
         }
 
@@ -223,7 +214,6 @@ abstract class Query
                    . iconv($encoding, 'UTF-8//IGNORE', $inputHtmlFragment) . '</body></html>';
 
         /** \Maho\Search\Lucene\Document\Html */
-        // require_once 'Zend/Search/Lucene/Document/Html.php';
 
         $doc = \Maho\Search\Lucene\Document\Html::loadHTML($inputHTML);
         $highlighter->setDocument($doc);

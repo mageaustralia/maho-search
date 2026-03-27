@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Index\SegmentWriter;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,23 +16,17 @@ namespace Maho\Search\Lucene\Index\SegmentWriter;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Index
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** \Maho\Search\Lucene\Index\SegmentWriter */
-// require_once 'Zend/Search/Lucene/Index/SegmentWriter.php';
 
 /**
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Index
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class DocumentWriter extends \Maho\Search\Lucene\Index\SegmentWriter
 {
@@ -76,7 +69,6 @@ class DocumentWriter extends \Maho\Search\Lucene\Index\SegmentWriter
     public function addDocument(\Maho\Search\Lucene\Document $document)
     {
         /** \Maho\Search\Lucene\Search\Similarity */
-        // require_once 'Zend/Search/Lucene/Search/Similarity.php';
 
         $storedFields = array();
         $docNorms     = array();
@@ -89,14 +81,12 @@ class DocumentWriter extends \Maho\Search\Lucene\Index\SegmentWriter
                 /**
                  * @todo term vector storing support
                  */
-                // require_once 'Zend/Search/Lucene/Exception.php';
                 throw new \Maho\Search\Lucene\Exception('Store term vector functionality is not supported yet.');
             }
 
             if ($field->isIndexed) {
                 if ($field->isTokenized) {
                     /** \Maho\Search\Lucene\Analysis\Analyzer */
-                    // require_once 'Zend/Search/Lucene/Analysis/Analyzer.php';
 
                     $analyzer = \Maho\Search\Lucene\Analysis\Analyzer::getDefault();
                     $analyzer->setInput($field->value, $field->encoding);
@@ -217,7 +207,6 @@ class DocumentWriter extends \Maho\Search\Lucene\Index\SegmentWriter
         $this->_generateCFS();
 
         /** \Maho\Search\Lucene\Index\SegmentInfo */
-        // require_once 'Zend/Search/Lucene/Index/SegmentInfo.php';
 
         return new \Maho\Search\Lucene\Index\SegmentInfo($this->_directory,
                                                         $this->_name,

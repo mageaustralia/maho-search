@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Search\Query;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,25 +16,19 @@ namespace Maho\Search\Lucene\Search\Query;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** \Maho\Search\Lucene\Search\Query */
-// require_once 'Zend/Search/Lucene/Search/Query.php';
 
 /**
  * A Query that matches documents containing a particular sequence of terms.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Phrase extends \Maho\Search\Lucene\Search\Query
 {
@@ -110,7 +103,6 @@ class Phrase extends \Maho\Search\Lucene\Search\Query
 
         if (is_array($terms)) {
             $this->_terms = array();
-            // require_once 'Zend/Search/Lucene/Index/Term.php';
             foreach ($terms as $termId => $termText) {
                 $this->_terms[$termId] = ($field !== null)? new \Maho\Search\Lucene\Index\Term($termText, $field):
                                                             new \Maho\Search\Lucene\Index\Term($termText);
@@ -118,13 +110,11 @@ class Phrase extends \Maho\Search\Lucene\Search\Query
         } else if ($terms === null) {
             $this->_terms = array();
         } else {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('terms argument must be array of strings or null');
         }
 
         if (is_array($offsets)) {
             if (count($this->_terms) != count($offsets)) {
-                // require_once 'Zend/Search/Lucene/Exception.php';
                 throw new \Maho\Search\Lucene\Exception('terms and offsets arguments must have the same size.');
             }
             $this->_offsets = $offsets;
@@ -135,7 +125,6 @@ class Phrase extends \Maho\Search\Lucene\Search\Query
                 $this->_offsets[$termId] = $position;
             }
         } else {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('offsets argument must be array of strings or null');
         }
     }
@@ -170,7 +159,6 @@ class Phrase extends \Maho\Search\Lucene\Search\Query
      */
     public function addTerm(\Maho\Search\Lucene\Index\Term $term, $position = null) {
         if ((count($this->_terms) != 0)&&(end($this->_terms)->field != $term->field)) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('All phrase terms must be in the same field: ' .
                                                    $term->field . ':' . $term->text);
         }
@@ -194,12 +182,10 @@ class Phrase extends \Maho\Search\Lucene\Search\Query
     public function rewrite(\Maho\Search\Lucene\LuceneInterface $index)
     {
         if (count($this->_terms) == 0) {
-            // require_once 'Zend/Search/Lucene/Search/Query/Empty.php';
             return new \Maho\Search\Lucene\Search\Query\EmptyQuery();
         } else if ($this->_terms[0]->field !== null) {
             return $this;
         } else {
-            // require_once 'Zend/Search/Lucene/Search/Query/Boolean.php';
             $query = new \Maho\Search\Lucene\Search\Query\BooleanQuery();
             $query->setBoost($this->getBoost());
 
@@ -207,7 +193,6 @@ class Phrase extends \Maho\Search\Lucene\Search\Query
                 $subquery = new \Maho\Search\Lucene\Search\Query\Phrase();
                 $subquery->setSlop($this->getSlop());
 
-                // require_once 'Zend/Search/Lucene/Index/Term.php';
                 foreach ($this->_terms as $termId => $term) {
                     $qualifiedTerm = new \Maho\Search\Lucene\Index\Term($term->text, $fieldName);
 
@@ -232,14 +217,12 @@ class Phrase extends \Maho\Search\Lucene\Search\Query
         // Check, that index contains all phrase terms
         foreach ($this->_terms as $term) {
             if (!$index->hasTerm($term)) {
-                // require_once 'Zend/Search/Lucene/Search/Query/Empty.php';
                 return new \Maho\Search\Lucene\Search\Query\EmptyQuery();
             }
         }
 
         if (count($this->_terms) == 1) {
             // It's one term query
-            // require_once 'Zend/Search/Lucene/Search/Query/Term.php';
             $optimizedQuery = new \Maho\Search\Lucene\Search\Query\Term(reset($this->_terms));
             $optimizedQuery->setBoost($this->getBoost());
 
@@ -247,7 +230,6 @@ class Phrase extends \Maho\Search\Lucene\Search\Query
         }
 
         if (count($this->_terms) == 0) {
-            // require_once 'Zend/Search/Lucene/Search/Query/Empty.php';
             return new \Maho\Search\Lucene\Search\Query\EmptyQuery();
         }
 
@@ -283,7 +265,6 @@ class Phrase extends \Maho\Search\Lucene\Search\Query
      */
     public function createWeight(\Maho\Search\Lucene\LuceneInterface $reader)
     {
-        // require_once 'Zend/Search/Lucene/Search/Weight/Phrase.php';
         $this->_weight = new \Maho\Search\Lucene\Search\Weight\Phrase($this, $reader);
         return $this->_weight;
     }

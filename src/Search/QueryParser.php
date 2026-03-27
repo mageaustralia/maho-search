@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Search;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,31 +16,23 @@ namespace Maho\Search\Lucene\Search;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** Internally used classes */
 
 /** \Maho\Search\Lucene\Analysis\Analyzer */
-// require_once 'Zend/Search/Lucene/Analysis/Analyzer.php';
 
 /** \Maho\Search\Lucene\Search\QueryToken */
-// require_once 'Zend/Search/Lucene/Search/QueryToken.php';
 
 /** \Maho\Search\Lucene\FSM */
-// require_once 'Zend/Search/Lucene/FSM.php';
 
 /**
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class QueryParser extends \Maho\Search\Lucene\FSM
 {
@@ -246,7 +237,6 @@ class QueryParser extends \Maho\Search\Lucene\FSM
         $this->addEntryAction(self::ST_CLOSEDINT_RQ_FIRST_TERM, $closedRQFirstTermAction);
         $this->addEntryAction(self::ST_CLOSEDINT_RQ_LAST_TERM,  $closedRQLastTermAction);
 
-        // require_once 'Zend/Search/Lucene/Search/QueryLexer.php';
         $this->_lexer = new \Maho\Search\Lucene\Search\QueryLexer();
     }
 
@@ -354,9 +344,7 @@ class QueryParser extends \Maho\Search\Lucene\FSM
         // Reset FSM if previous parse operation didn't return it into a correct state
         self::$_instance->reset();
 
-        // require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
         try {
-            // require_once 'Zend/Search/Lucene/Search/QueryParserContext.php';
 
             self::$_instance->_encoding     = ($encoding !== null) ? $encoding : self::$_instance->_defaultEncoding;
             self::$_instance->_lastToken    = null;
@@ -366,7 +354,6 @@ class QueryParser extends \Maho\Search\Lucene\FSM
 
             // Empty query
             if (count(self::$_instance->_tokens) == 0) {
-                // require_once 'Zend/Search/Lucene/Search/Query/Insignificant.php';
                 return new \Maho\Search\Lucene\Search\Query\Insignificant();
             }
 
@@ -381,7 +368,6 @@ class QueryParser extends \Maho\Search\Lucene\FSM
                         throw new \Maho\Search\Lucene\Search\QueryParserException( 'Syntax error at char position ' . $token->position . '.', 0, $e);
                     }
 
-                    // require_once 'Zend/Search/Lucene/Exception.php';
                     throw new \Maho\Search\Lucene\Exception($e->getMessage(), $e->getCode(), $e);
                 }
             }
@@ -395,19 +381,16 @@ class QueryParser extends \Maho\Search\Lucene\FSM
             if (self::$_instance->_suppressQueryParsingExceptions) {
                 $queryTokens = \Maho\Search\Lucene\Analysis\Analyzer::getDefault()->tokenize($strQuery, self::$_instance->_encoding);
 
-                // require_once 'Zend/Search/Lucene/Search/Query/MultiTerm.php';
                 $query = new \Maho\Search\Lucene\Search\Query\MultiTerm();
                 $termsSign = (self::$_instance->_defaultOperator == self::B_AND) ? true /* required term */ :
                                                                                    null /* optional term */;
 
-                // require_once 'Zend/Search/Lucene/Index/Term.php';
                 foreach ($queryTokens as $token) {
                     $query->addTerm(new \Maho\Search\Lucene\Index\Term($token->getTermText()), $termsSign);
                 }
 
                 return $query;
             } else {
-                // require_once 'Zend/Search/Lucene/Exception.php';
                 throw new \Maho\Search\Lucene\Exception($e->getMessage(), $e->getCode(), $e);
             }
         }
@@ -424,7 +407,6 @@ class QueryParser extends \Maho\Search\Lucene\FSM
      */
     public function addTermEntry()
     {
-        // require_once 'Zend/Search/Lucene/Search/QueryEntry/Term.php';
         $entry = new \Maho\Search\Lucene\Search\QueryEntry\Term($this->_currentToken->text, $this->_context->getField());
         $this->_context->addEntry($entry);
     }
@@ -434,7 +416,6 @@ class QueryParser extends \Maho\Search\Lucene\FSM
      */
     public function addPhraseEntry()
     {
-        // require_once 'Zend/Search/Lucene/Search/QueryEntry/Phrase.php';
         $entry = new \Maho\Search\Lucene\Search\QueryEntry\Phrase($this->_currentToken->text, $this->_context->getField());
         $this->_context->addEntry($entry);
     }
@@ -471,7 +452,6 @@ class QueryParser extends \Maho\Search\Lucene\FSM
     public function processModifierParameter()
     {
         if ($this->_lastToken === null) {
-            // require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
             throw new \Maho\Search\Lucene\Search\QueryParserException('Lexeme modifier parameter must follow lexeme modifier. Char position 0.' );
         }
 
@@ -486,7 +466,6 @@ class QueryParser extends \Maho\Search\Lucene\FSM
 
             default:
                 // It's not a user input exception
-                // require_once 'Zend/Search/Lucene/Exception.php';
                 throw new \Maho\Search\Lucene\Exception('Lexeme modifier parameter must follow lexeme modifier. Char position 0.' );
         }
     }
@@ -496,7 +475,6 @@ class QueryParser extends \Maho\Search\Lucene\FSM
      */
     public function subqueryStart()
     {
-        // require_once 'Zend/Search/Lucene/Search/QueryParserContext.php';
 
         $this->_contextStack[] = $this->_context;
         $this->_context        = new \Maho\Search\Lucene\Search\QueryParserContext($this->_encoding, $this->_context->getField());
@@ -508,14 +486,12 @@ class QueryParser extends \Maho\Search\Lucene\FSM
     public function subqueryEnd()
     {
         if (count($this->_contextStack) == 0) {
-            // require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
             throw new \Maho\Search\Lucene\Search\QueryParserException('Syntax Error: mismatched parentheses, every opening must have closing. Char position ' . $this->_currentToken->position . '.' );
         }
 
         $query          = $this->_context->getQuery();
         $this->_context = array_pop($this->_contextStack);
 
-        // require_once 'Zend/Search/Lucene/Search/QueryEntry/Subquery.php';
         $this->_context->addEntry(new \Maho\Search\Lucene\Search\QueryEntry\Subquery($query));
     }
 
@@ -545,10 +521,8 @@ class QueryParser extends \Maho\Search\Lucene\FSM
     {
         $tokens = \Maho\Search\Lucene\Analysis\Analyzer::getDefault()->tokenize($this->_rqFirstTerm, $this->_encoding);
         if (count($tokens) > 1) {
-            // require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
             throw new \Maho\Search\Lucene\Search\QueryParserException('Range query boundary terms must be non-multiple word terms');
         } else if (count($tokens) == 1) {
-            // require_once 'Zend/Search/Lucene/Index/Term.php';
             $from = new \Maho\Search\Lucene\Index\Term(reset($tokens)->getTermText(), $this->_context->getField());
         } else {
             $from = null;
@@ -556,23 +530,18 @@ class QueryParser extends \Maho\Search\Lucene\FSM
 
         $tokens = \Maho\Search\Lucene\Analysis\Analyzer::getDefault()->tokenize($this->_currentToken->text, $this->_encoding);
         if (count($tokens) > 1) {
-            // require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
             throw new \Maho\Search\Lucene\Search\QueryParserException('Range query boundary terms must be non-multiple word terms');
         } else if (count($tokens) == 1) {
-            // require_once 'Zend/Search/Lucene/Index/Term.php';
             $to = new \Maho\Search\Lucene\Index\Term(reset($tokens)->getTermText(), $this->_context->getField());
         } else {
             $to = null;
         }
 
         if ($from === null  &&  $to === null) {
-            // require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
             throw new \Maho\Search\Lucene\Search\QueryParserException('At least one range query boundary term must be non-empty term');
         }
 
-        // require_once 'Zend/Search/Lucene/Search/Query/Range.php';
         $rangeQuery = new \Maho\Search\Lucene\Search\Query\Range($from, $to, false);
-        // require_once 'Zend/Search/Lucene/Search/QueryEntry/Subquery.php';
         $entry      = new \Maho\Search\Lucene\Search\QueryEntry\Subquery($rangeQuery);
         $this->_context->addEntry($entry);
     }
@@ -595,10 +564,8 @@ class QueryParser extends \Maho\Search\Lucene\FSM
     {
         $tokens = \Maho\Search\Lucene\Analysis\Analyzer::getDefault()->tokenize($this->_rqFirstTerm, $this->_encoding);
         if (count($tokens) > 1) {
-            // require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
             throw new \Maho\Search\Lucene\Search\QueryParserException('Range query boundary terms must be non-multiple word terms');
         } else if (count($tokens) == 1) {
-            // require_once 'Zend/Search/Lucene/Index/Term.php';
             $from = new \Maho\Search\Lucene\Index\Term(reset($tokens)->getTermText(), $this->_context->getField());
         } else {
             $from = null;
@@ -606,23 +573,18 @@ class QueryParser extends \Maho\Search\Lucene\FSM
 
         $tokens = \Maho\Search\Lucene\Analysis\Analyzer::getDefault()->tokenize($this->_currentToken->text, $this->_encoding);
         if (count($tokens) > 1) {
-            // require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
             throw new \Maho\Search\Lucene\Search\QueryParserException('Range query boundary terms must be non-multiple word terms');
         } else if (count($tokens) == 1) {
-            // require_once 'Zend/Search/Lucene/Index/Term.php';
             $to = new \Maho\Search\Lucene\Index\Term(reset($tokens)->getTermText(), $this->_context->getField());
         } else {
             $to = null;
         }
 
         if ($from === null  &&  $to === null) {
-            // require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
             throw new \Maho\Search\Lucene\Search\QueryParserException('At least one range query boundary term must be non-empty term');
         }
 
-        // require_once 'Zend/Search/Lucene/Search/Query/Range.php';
         $rangeQuery = new \Maho\Search\Lucene\Search\Query\Range($from, $to, true);
-        // require_once 'Zend/Search/Lucene/Search/QueryEntry/Subquery.php';
         $entry      = new \Maho\Search\Lucene\Search\QueryEntry\Subquery($rangeQuery);
         $this->_context->addEntry($entry);
     }

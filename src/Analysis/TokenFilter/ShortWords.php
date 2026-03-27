@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Analysis\TokenFilter;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,25 +16,19 @@ namespace Maho\Search\Lucene\Analysis\TokenFilter;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Analysis
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** \Maho\Search\Lucene\Analysis\TokenFilter */
-// require_once 'Zend/Search/Lucene/Analysis/TokenFilter.php';
 
 /**
  * Token filter that removes short words. What is short word can be configured with constructor.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Analysis
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
 class ShortWords extends \Maho\Search\Lucene\Analysis\TokenFilter

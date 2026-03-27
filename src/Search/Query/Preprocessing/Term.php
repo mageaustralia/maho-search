@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Search\Query\Preprocessing;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,27 +16,21 @@ namespace Maho\Search\Lucene\Search\Query\Preprocessing;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** Zend_Search_Lucene_Search_Query_Processing */
-// require_once 'Zend/Search/Lucene/Search/Query/Preprocessing.php';
 
 /**
  * It's an internal abstract class intended to finalize ase a query processing after query parsing.
  * This type of query is not actually involved into query execution.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
  * @internal
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Term extends \Maho\Search\Lucene\Search\Query\Preprocessing
 {
@@ -85,20 +78,17 @@ class Term extends \Maho\Search\Lucene\Search\Query\Preprocessing
     public function rewrite(\Maho\Search\Lucene\LuceneInterface $index)
     {
         if ($this->_field === null) {
-            // require_once 'Zend/Search/Lucene/Search/Query/MultiTerm.php';
             $query = new \Maho\Search\Lucene\Search\Query\MultiTerm();
             $query->setBoost($this->getBoost());
 
             $hasInsignificantSubqueries = false;
 
-            // require_once 'Zend/Search/Lucene.php';
             if (\Maho\Search\Lucene\Lucene::getDefaultSearchField() === null) {
                 $searchFields = $index->getFieldNames(true);
             } else {
                 $searchFields = array(\Maho\Search\Lucene\Lucene::getDefaultSearchField());
             }
 
-            // require_once 'Zend/Search/Lucene/Search/Query/Preprocessing/Term.php';
             foreach ($searchFields as $fieldName) {
                 $subquery = new \Maho\Search\Lucene\Search\Query\Preprocessing\Term($this->_word,
                                                                                    $this->_encoding,
@@ -116,10 +106,8 @@ class Term extends \Maho\Search\Lucene\Search\Query\Preprocessing
             if (count($query->getTerms()) == 0) {
                 $this->_matches = array();
                 if ($hasInsignificantSubqueries) {
-                    // require_once 'Zend/Search/Lucene/Search/Query/Insignificant.php';
                     return new \Maho\Search\Lucene\Search\Query\Insignificant();
                 } else {
-                    // require_once 'Zend/Search/Lucene/Search/Query/Empty.php';
                     return new \Maho\Search\Lucene\Search\Query\EmptyQuery();
                 }
             }
@@ -131,10 +119,8 @@ class Term extends \Maho\Search\Lucene\Search\Query\Preprocessing
         // -------------------------------------
         // Recognize exact term matching (it corresponds to Keyword fields stored in the index)
         // encoding is not used since we expect binary matching
-        // require_once 'Zend/Search/Lucene/Index/Term.php';
         $term = new \Maho\Search\Lucene\Index\Term($this->_word, $this->_field);
         if ($index->hasTerm($term)) {
-            // require_once 'Zend/Search/Lucene/Search/Query/Term.php';
             $query = new \Maho\Search\Lucene\Search\Query\Term($term);
             $query->setBoost($this->getBoost());
 
@@ -163,7 +149,6 @@ class Term extends \Maho\Search\Lucene\Search\Query\Preprocessing
 
             $pattern = '';
 
-            // require_once 'Zend/Search/Lucene/Analysis/Analyzer.php';
             foreach ($subPatterns as $id => $subPattern) {
                 // Append corresponding wildcard character to the pattern before each sub-pattern (except first)
                 if ($id != 0) {
@@ -173,7 +158,6 @@ class Term extends \Maho\Search\Lucene\Search\Query\Preprocessing
                 // Check if each subputtern is a single word in terms of current analyzer
                 $tokens = \Maho\Search\Lucene\Analysis\Analyzer::getDefault()->tokenize($subPattern[0], $subPatternsEncoding);
                 if (count($tokens) > 1) {
-                    // require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
                     throw new \Maho\Search\Lucene\Search\QueryParserException('Wildcard search is supported only for non-multiple word terms');
                 }
                 foreach ($tokens as $token) {
@@ -181,9 +165,7 @@ class Term extends \Maho\Search\Lucene\Search\Query\Preprocessing
                 }
             }
 
-            // require_once 'Zend/Search/Lucene/Index/Term.php';
             $term  = new \Maho\Search\Lucene\Index\Term($pattern, $this->_field);
-            // require_once 'Zend/Search/Lucene/Search/Query/Wildcard.php';
             $query = new \Maho\Search\Lucene\Search\Query\Wildcard($term);
             $query->setBoost($this->getBoost());
 
@@ -196,19 +178,15 @@ class Term extends \Maho\Search\Lucene\Search\Query\Preprocessing
 
         // -------------------------------------
         // Recognize one-term multi-term and "insignificant" queries
-        // require_once 'Zend/Search/Lucene/Analysis/Analyzer.php';
         $tokens = \Maho\Search\Lucene\Analysis\Analyzer::getDefault()->tokenize($this->_word, $this->_encoding);
 
         if (count($tokens) == 0) {
             $this->_matches = array();
-            // require_once 'Zend/Search/Lucene/Search/Query/Insignificant.php';
             return new \Maho\Search\Lucene\Search\Query\Insignificant();
         }
 
         if (count($tokens) == 1) {
-            // require_once 'Zend/Search/Lucene/Index/Term.php';
             $term  = new \Maho\Search\Lucene\Index\Term($tokens[0]->getTermText(), $this->_field);
-            // require_once 'Zend/Search/Lucene/Search/Query/Term.php';
             $query = new \Maho\Search\Lucene\Search\Query\Term($term);
             $query->setBoost($this->getBoost());
 
@@ -217,14 +195,12 @@ class Term extends \Maho\Search\Lucene\Search\Query\Preprocessing
         }
 
         //It's not insignificant or one term query
-        // require_once 'Zend/Search/Lucene/Search/Query/MultiTerm.php';
         $query = new \Maho\Search\Lucene\Search\Query\MultiTerm();
 
         /**
          * @todo Process $token->getPositionIncrement() to support stemming, synonyms and other
          * analizer design features
          */
-        // require_once 'Zend/Search/Lucene/Index/Term.php';
         foreach ($tokens as $token) {
             $term = new \Maho\Search\Lucene\Index\Term($token->getTermText(), $this->_field);
             $query->addTerm($term, true); // all subterms are required
@@ -265,7 +241,6 @@ class Term extends \Maho\Search\Lucene\Search\Query\Preprocessing
 
             $pattern = '';
 
-            // require_once 'Zend/Search/Lucene/Analysis/Analyzer.php';
             foreach ($subPatterns as $id => $subPattern) {
                 // Append corresponding wildcard character to the pattern before each sub-pattern (except first)
                 if ($id != 0) {
@@ -283,9 +258,7 @@ class Term extends \Maho\Search\Lucene\Search\Query\Preprocessing
                 }
             }
 
-            // require_once 'Zend/Search/Lucene/Index/Term.php';
             $term  = new \Maho\Search\Lucene\Index\Term($pattern, $this->_field);
-            // require_once 'Zend/Search/Lucene/Search/Query/Wildcard.php';
             $query = new \Maho\Search\Lucene\Search\Query\Wildcard($term);
 
             $query->_highlightMatches($highlighter);
@@ -294,7 +267,6 @@ class Term extends \Maho\Search\Lucene\Search\Query\Preprocessing
 
         // -------------------------------------
         // Recognize one-term multi-term and "insignificant" queries
-        // require_once 'Zend/Search/Lucene/Analysis/Analyzer.php';
         $tokens = \Maho\Search\Lucene\Analysis\Analyzer::getDefault()->tokenize($this->_word, $this->_encoding);
 
         if (count($tokens) == 0) {

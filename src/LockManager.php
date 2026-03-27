@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,26 +16,19 @@ namespace Maho\Search\Lucene;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  */
 
 /** \Maho\Search\Lucene\Storage\Directory */
-// require_once 'Zend/Search/Lucene/Storage/Directory.php';
 
 /** \Maho\Search\Lucene\Storage\File */
-// require_once 'Zend/Search/Lucene/Storage/File.php';
 
 /**
  * This is an utility class which provides index locks processing functionality
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  */
 class LockManager
 {
@@ -59,7 +51,6 @@ class LockManager
     {
         $lock = $lockDirectory->createFile(self::WRITE_LOCK_FILE);
         if (!$lock->lock(LOCK_EX)) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Can\'t obtain exclusive index lock');
         }
         return $lock;
@@ -104,7 +95,6 @@ class LockManager
     {
         $lock = $lockDirectory->createFile(self::READ_LOCK_PROCESSING_LOCK_FILE);
         if (!$lock->lock(LOCK_EX)) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Can\'t obtain exclusive lock for the read lock processing file');
         }
         return $lock;
@@ -137,7 +127,6 @@ class LockManager
     {
         $lock = $lockDirectory->createFile(self::READ_LOCK_FILE);
         if (!$lock->lock(LOCK_SH)) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Can\'t obtain shared reading index lock');
         }
         return $lock;

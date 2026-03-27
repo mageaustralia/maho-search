@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Search\Query;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,23 +16,17 @@ namespace Maho\Search\Lucene\Search\Query;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** \Maho\Search\Lucene\Search\Query */
-// require_once 'Zend/Search/Lucene/Search/Query.php';
 
 /**
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class BooleanQuery extends \Maho\Search\Lucene\Search\Query
 {
@@ -175,7 +168,6 @@ class BooleanQuery extends \Maho\Search\Lucene\Search\Query
         }
         if (count($subqueries) == 0) {
             // Boolean query doesn't has non-insignificant subqueries
-            // require_once 'Zend/Search/Lucene/Search/Query/Insignificant.php';
             return new \Maho\Search\Lucene\Search\Query\Insignificant();
         }
         // Check if all non-insignificant subqueries are prohibited
@@ -187,7 +179,6 @@ class BooleanQuery extends \Maho\Search\Lucene\Search\Query
             }
         }
         if ($allProhibited) {
-            // require_once 'Zend/Search/Lucene/Search/Query/Insignificant.php';
             return new \Maho\Search\Lucene\Search\Query\Insignificant();
         }
 
@@ -196,7 +187,6 @@ class BooleanQuery extends \Maho\Search\Lucene\Search\Query
             if ($subquery instanceof \Maho\Search\Lucene\Search\Query\EmptyQuery) {
                 if ($signs[$id] === true) {
                     // Matching is required, but is actually empty
-                    // require_once 'Zend/Search/Lucene/Search/Query/Empty.php';
                     return new \Maho\Search\Lucene\Search\Query\EmptyQuery();
                 } else {
                     // Matching is optional or prohibited, but is empty
@@ -209,7 +199,6 @@ class BooleanQuery extends \Maho\Search\Lucene\Search\Query
 
         // Check, if reduced subqueries list is empty
         if (count($subqueries) == 0) {
-            // require_once 'Zend/Search/Lucene/Search/Query/Empty.php';
             return new \Maho\Search\Lucene\Search\Query\EmptyQuery();
         }
 
@@ -222,7 +211,6 @@ class BooleanQuery extends \Maho\Search\Lucene\Search\Query
             }
         }
         if ($allProhibited) {
-            // require_once 'Zend/Search/Lucene/Search/Query/Empty.php';
             return new \Maho\Search\Lucene\Search\Query\EmptyQuery();
         }
 
@@ -352,7 +340,6 @@ class BooleanQuery extends \Maho\Search\Lucene\Search\Query
 
         // Check, if all subqueries have been decomposed and all terms has the same boost factor
         if (count($subqueries) == 0  &&  count(array_unique($boostFactors)) == 1) {
-            // require_once 'Zend/Search/Lucene/Search/Query/MultiTerm.php';
             $optimizedQuery = new \Maho\Search\Lucene\Search\Query\MultiTerm($terms, $tsigns);
             $optimizedQuery->setBoost(reset($boostFactors)*$this->getBoost());
 
@@ -375,7 +362,6 @@ class BooleanQuery extends \Maho\Search\Lucene\Search\Query
         }
 
         if (count($terms) == 1) {
-            // require_once 'Zend/Search/Lucene/Search/Query/Term.php';
             $clause = new \Maho\Search\Lucene\Search\Query\Term(reset($terms));
             $clause->setBoost(reset($boostFactors));
 
@@ -385,7 +371,6 @@ class BooleanQuery extends \Maho\Search\Lucene\Search\Query
             // Clear terms list
             $terms = array();
         } else if (count($terms) > 1  &&  count(array_unique($boostFactors)) == 1) {
-            // require_once 'Zend/Search/Lucene/Search/Query/MultiTerm.php';
             $clause = new \Maho\Search\Lucene\Search\Query\MultiTerm($terms, $tsigns);
             $clause->setBoost(reset($boostFactors));
 
@@ -399,7 +384,6 @@ class BooleanQuery extends \Maho\Search\Lucene\Search\Query
 
         if (count($prohibitedTerms) == 1) {
             // (boost factors are not significant for prohibited clauses)
-            // require_once 'Zend/Search/Lucene/Search/Query/Term.php';
             $subqueries[] = new \Maho\Search\Lucene\Search\Query\Term(reset($prohibitedTerms));
             $signs[]      = false;
 
@@ -414,7 +398,6 @@ class BooleanQuery extends \Maho\Search\Lucene\Search\Query
             }
 
             // (boost factors are not significant for prohibited clauses)
-            // require_once 'Zend/Search/Lucene/Search/Query/MultiTerm.php';
             $subqueries[] = new \Maho\Search\Lucene\Search\Query\MultiTerm($prohibitedTerms, $prohibitedSigns);
             // Clause sign is 'prohibited'
             $signs[]      = false;
@@ -463,7 +446,6 @@ class BooleanQuery extends \Maho\Search\Lucene\Search\Query
      */
     public function createWeight(\Maho\Search\Lucene\LuceneInterface $reader)
     {
-        // require_once 'Zend/Search/Lucene/Search/Weight/Boolean.php';
         $this->_weight = new \Maho\Search\Lucene\Search\Weight\BooleanWeight($this, $reader);
         return $this->_weight;
     }
@@ -681,7 +663,6 @@ class BooleanQuery extends \Maho\Search\Lucene\Search\Query
 
         if ($docsFilter === null) {
             // Create local documents filter if it's not provided by upper query
-            // require_once 'Zend/Search/Lucene/Index/DocsFilter.php';
             $docsFilter = new \Maho\Search\Lucene\Index\DocsFilter();
         }
 

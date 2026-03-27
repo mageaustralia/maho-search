@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Analysis\Analyzer;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,12 +16,9 @@ namespace Maho\Search\Lucene\Analysis\Analyzer;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Analysis
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** Define constant used to provide correct file processing order    */
@@ -32,13 +28,10 @@ if (!defined('ZEND_SEARCH_LUCENE_COMMON_ANALYZER_PROCESSED')) {
 }
 
 /** \Maho\Search\Lucene\Analysis\Analyzer */
-// require_once 'Zend/Search/Lucene/Analysis/Analyzer.php';
 
 /** \Maho\Search\Lucene\Analysis\Token */
-// require_once 'Zend/Search/Lucene/Analysis/Token.php';
 
 /** \Maho\Search\Lucene\Analysis\TokenFilter */
-// require_once 'Zend/Search/Lucene/Analysis/TokenFilter.php';
 
 /**
  * Common implementation of the \Maho\Search\Lucene\Analysis\Analyzer interface.
@@ -47,11 +40,9 @@ if (!defined('ZEND_SEARCH_LUCENE_COMMON_ANALYZER_PROCESSED')) {
  *
  * @todo ZSearchHTMLAnalyzer and ZSearchXMLAnalyzer implementation
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Analysis
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Common extends \Maho\Search\Lucene\Analysis\Analyzer
 {

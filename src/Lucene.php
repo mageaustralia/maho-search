@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,80 +16,56 @@ namespace Maho\Search\Lucene;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  */
 
 /** User land classes and interfaces turned on by Zend/Search/Lucene.php file inclusion. */
 /** @todo Section should be removed with ZF 2.0 release as obsolete                      */
 
 /** \Maho\Search\Lucene\Document\Html */
-// require_once 'Zend/Search/Lucene/Document/Html.php';
 
 /** \Maho\Search\Lucene\Document\Docx */
-// require_once 'Zend/Search/Lucene/Document/Docx.php';
 
 /** \Maho\Search\Lucene\Document\Pptx */
-// require_once 'Zend/Search/Lucene/Document/Pptx.php';
 
 /** \Maho\Search\Lucene\Document\Xlsx */
-// require_once 'Zend/Search/Lucene/Document/Xlsx.php';
 
 /** \Maho\Search\Lucene\Search\QueryParser */
-// require_once 'Zend/Search/Lucene/Search/QueryParser.php';
 
 /** \Maho\Search\Lucene\Search\QueryHit */
-// require_once 'Zend/Search/Lucene/Search/QueryHit.php';
 
 /** \Maho\Search\Lucene\Analysis\Analyzer */
-// require_once 'Zend/Search/Lucene/Analysis/Analyzer.php';
 
 /** \Maho\Search\Lucene\Search\Query\Term */
-// require_once 'Zend/Search/Lucene/Search/Query/Term.php';
 
 /** \Maho\Search\Lucene\Search\Query\Phrase */
-// require_once 'Zend/Search/Lucene/Search/Query/Phrase.php';
 
 /** \Maho\Search\Lucene\Search\Query\MultiTerm */
-// require_once 'Zend/Search/Lucene/Search/Query/MultiTerm.php';
 
 /** \Maho\Search\Lucene\Search\Query\Wildcard */
-// require_once 'Zend/Search/Lucene/Search/Query/Wildcard.php';
 
 /** \Maho\Search\Lucene\Search\Query\Range */
-// require_once 'Zend/Search/Lucene/Search/Query/Range.php';
 
 /** \Maho\Search\Lucene\Search\Query\Fuzzy */
-// require_once 'Zend/Search/Lucene/Search/Query/Fuzzy.php';
 
 /** \Maho\Search\Lucene\Search\Query\BooleanQuery */
-// require_once 'Zend/Search/Lucene/Search/Query/Boolean.php';
 
 /** \Maho\Search\Lucene\Search\Query\EmptyQuery */
-// require_once 'Zend/Search/Lucene/Search/Query/Empty.php';
 
 /** \Maho\Search\Lucene\Search\Query\Insignificant */
-// require_once 'Zend/Search/Lucene/Search/Query/Insignificant.php';
 
 /** Internally used classes */
 
 /** \Maho\Search\Lucene\LuceneInterface */
-// require_once 'Zend/Search/Lucene/Interface.php';
 
 /** \Maho\Search\Lucene\Index\SegmentInfo */
-// require_once 'Zend/Search/Lucene/Index/SegmentInfo.php';
 
 /** \Maho\Search\Lucene\LockManager */
-// require_once 'Zend/Search/Lucene/LockManager.php';
 
 /**
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  */
 class Lucene implements \Maho\Search\Lucene\LuceneInterface
 {
@@ -206,7 +181,6 @@ class Lucene implements \Maho\Search\Lucene\LuceneInterface
     public static function create($directory)
     {
         /** \Maho\Search\Lucene\Proxy */
-        // require_once 'Zend/Search/Lucene/Proxy.php';
 
         return new \Maho\Search\Lucene\Proxy(new \Maho\Search\Lucene\Lucene($directory, true));
     }
@@ -222,7 +196,6 @@ class Lucene implements \Maho\Search\Lucene\LuceneInterface
     public static function open($directory)
     {
         /** \Maho\Search\Lucene\Proxy */
-        // require_once 'Zend/Search/Lucene/Proxy.php';
 
         return new \Maho\Search\Lucene\Proxy(new \Maho\Search\Lucene\Lucene($directory, false));
     }
@@ -257,7 +230,6 @@ class Lucene implements \Maho\Search\Lucene\LuceneInterface
          *       without performance problems
          */
 
-        // require_once 'Zend/Search/Lucene/Exception.php';
         try {
             for ($count = 0; $count < self::GENERATION_RETRIEVE_COUNT; $count++) {
                 // Try to get generation file
@@ -354,7 +326,6 @@ class Lucene implements \Maho\Search\Lucene\LuceneInterface
         if ($formatVersion != self::FORMAT_PRE_2_1  &&
             $formatVersion != self::FORMAT_2_1  &&
             $formatVersion != self::FORMAT_2_3) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Unsupported index format');
         }
 
@@ -373,7 +344,6 @@ class Lucene implements \Maho\Search\Lucene\LuceneInterface
         $format = $segmentsFile->readInt();
 
         if ($format != (int)0xFFFFFFFF) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Wrong segments file format');
         }
 
@@ -419,7 +389,6 @@ class Lucene implements \Maho\Search\Lucene\LuceneInterface
         } else if ($format == (int)0xFFFFFFFD) {
             $this->_formatVersion = self::FORMAT_2_1;
         } else {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Unsupported segments file format');
         }
 
@@ -467,7 +436,6 @@ class Lucene implements \Maho\Search\Lucene\LuceneInterface
                     $normGens[] = $segmentsFile->readLong();
                 }
 
-                // require_once 'Zend/Search/Lucene/Exception.php';
                 throw new \Maho\Search\Lucene\Exception('Separate norm files are not supported. Optimize index to use it with \Maho\Search\Lucene\Lucene.');
             }
 
@@ -510,12 +478,10 @@ class Lucene implements \Maho\Search\Lucene\LuceneInterface
     public function __construct($directory = null, $create = false)
     {
         if ($directory === null) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('No index directory specified');
         }
 
         if (is_string($directory)) {
-            // require_once 'Zend/Search/Lucene/Storage/Directory/Filesystem.php';
             $this->_directory      = new \Maho\Search\Lucene\Storage\Directory\Filesystem($directory);
             $this->_closeDirOnExit = true;
         } else {
@@ -531,7 +497,6 @@ class Lucene implements \Maho\Search\Lucene\LuceneInterface
         $this->_generation = self::getActualGeneration($this->_directory);
 
         if ($create) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             try {
                 \Maho\Search\Lucene\LockManager::obtainWriteLock($this->_directory);
             } catch (\Maho\Search\Lucene\Exception $e) {
@@ -557,14 +522,12 @@ class Lucene implements \Maho\Search\Lucene\LuceneInterface
                 $this->_generation++;
             }
 
-            // require_once 'Zend/Search/Lucene/Index/Writer.php';
             \Maho\Search\Lucene\Index\Writer::createIndex($this->_directory, $this->_generation, $nameCounter);
 
             \Maho\Search\Lucene\LockManager::releaseWriteLock($this->_directory);
         }
 
         if ($this->_generation == -1) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Index doesn\'t exists in the specified directory.');
         } else if ($this->_generation == 0) {
             $this->_readPre21SegmentsFile();
@@ -641,7 +604,6 @@ class Lucene implements \Maho\Search\Lucene\LuceneInterface
     private function _getIndexWriter()
     {
         if ($this->_writer === null) {
-            // require_once 'Zend/Search/Lucene/Index/Writer.php';
             $this->_writer = new \Maho\Search\Lucene\Index\Writer($this->_directory,
                                                                  $this->_segmentInfos,
                                                                  $this->_formatVersion);
@@ -711,7 +673,6 @@ class Lucene implements \Maho\Search\Lucene\LuceneInterface
         $this->commit();
 
         if ($id >= $this->_docCount) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Document id is out of the range.');
         }
 
@@ -922,13 +883,11 @@ class Lucene implements \Maho\Search\Lucene\LuceneInterface
     public function find($query)
     {
         if (is_string($query)) {
-            // require_once 'Zend/Search/Lucene/Search/QueryParser.php';
 
             $query = \Maho\Search\Lucene\Search\QueryParser::parse($query);
         }
 
         if (!$query instanceof \Maho\Search\Lucene\Search\Query) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Query must be a string or \Maho\Search\Lucene\Search\Query object');
         }
 
@@ -945,7 +904,6 @@ class Lucene implements \Maho\Search\Lucene\LuceneInterface
         $topScore = 0;
 
         /** \Maho\Search\Lucene\Search\QueryHit */
-        // require_once 'Zend/Search/Lucene/Search/QueryHit.php';
 
         foreach ($query->matchedDocs() as $id => $num) {
             $docScore = $query->score($id, $this);
@@ -1000,7 +958,6 @@ class Lucene implements \Maho\Search\Lucene\LuceneInterface
 
             $sortFieldValues = array();
 
-            // require_once 'Zend/Search/Lucene/Exception.php';
             for ($count = 1; $count < count($argList); $count++) {
                 $fieldName = $argList[$count];
 
@@ -1106,7 +1063,6 @@ class Lucene implements \Maho\Search\Lucene\LuceneInterface
         }
 
         if ($id >= $this->_docCount) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Document id is out of the range.');
         }
 
@@ -1310,7 +1266,6 @@ class Lucene implements \Maho\Search\Lucene\LuceneInterface
     public function getSimilarity()
     {
         /** \Maho\Search\Lucene\Search\Similarity */
-        // require_once 'Zend/Search/Lucene/Search/Similarity.php';
 
         return \Maho\Search\Lucene\Search\Similarity::getDefault();
     }
@@ -1375,7 +1330,6 @@ class Lucene implements \Maho\Search\Lucene\LuceneInterface
         }
 
         if ($id >= $this->_docCount) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Document id is out of the range.');
         }
 
@@ -1458,7 +1412,6 @@ class Lucene implements \Maho\Search\Lucene\LuceneInterface
         $result = array();
 
         /** \Maho\Search\Lucene\Index\TermsPriorityQueue */
-        // require_once 'Zend/Search/Lucene/Index/TermsPriorityQueue.php';
 
         $segmentInfoQueue = new \Maho\Search\Lucene\Index\TermsPriorityQueue();
 
@@ -1502,7 +1455,6 @@ class Lucene implements \Maho\Search\Lucene\LuceneInterface
     {
         if ($this->_termsStream === null) {
             /** \Maho\Search\Lucene\TermStreamsPriorityQueue */
-            // require_once 'Zend/Search/Lucene/TermStreamsPriorityQueue.php';
 
             $this->_termsStream = new \Maho\Search\Lucene\TermStreamsPriorityQueue($this->_segmentInfos);
         } else {

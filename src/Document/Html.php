@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Document;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,25 +16,19 @@ namespace Maho\Search\Lucene\Document;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Document
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** \Maho\Search\Lucene\Document */
-// require_once 'Zend/Search/Lucene/Document.php';
 
 /**
  * HTML document.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Document
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Html extends \Maho\Search\Lucene\Document
 {
@@ -288,7 +281,6 @@ class Html extends \Maho\Search\Lucene\Document
     protected function _highlightTextNode(DOMText $node, $wordsToHighlight, $callback, $params)
     {
         /** \Maho\Search\Lucene\Analysis\Analyzer */
-        // require_once 'Zend/Search/Lucene/Analysis/Analyzer.php';
 
         $analyzer = \Maho\Search\Lucene\Analysis\Analyzer::getDefault();
         $analyzer->setInput($node->nodeValue, 'UTF-8');
@@ -327,7 +319,6 @@ class Html extends \Maho\Search\Lucene\Document
                                        . $highlightedWordNodeSetHtml
                                        . '</body></html>');
             if (!$success) {
-                // require_once 'Zend/Search/Lucene/Exception.php';
                 throw new \Maho\Search\Lucene\Exception("Error occured while loading highlighted text fragment: '$highlightedWordNodeSetHtml'.");
             }
             $highlightedWordNodeSetXpath = new DOMXPath($highlightedWordNodeSetDomDocument);
@@ -413,7 +404,6 @@ class Html extends \Maho\Search\Lucene\Document
     public function highlightExtended($words, $callback, $params = array())
     {
         /** \Maho\Search\Lucene\Analysis\Analyzer */
-        // require_once 'Zend/Search/Lucene/Analysis/Analyzer.php';
 
         if (!is_array($words)) {
             $words = array($words);
@@ -436,7 +426,6 @@ class Html extends \Maho\Search\Lucene\Document
         }
 
         if (!is_callable($callback)) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('$viewHelper parameter must be a View Helper name, View Helper object or callback.');
         }
 

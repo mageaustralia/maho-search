@@ -35,7 +35,7 @@ class MageAustralia_LuceneSearch_Model_Observer
         try {
             $product = $observer->getEvent()->getProduct();
             if ($product instanceof Mage_Catalog_Model_Product) {
-                $this->_getIndexer()->_getProductIndexer()->reindexProduct($product);
+                $this->_getIndexer()->getProductIndexer()->reindexProduct($product);
             }
         } catch (\Throwable $e) {
             Mage::logException($e);
@@ -70,7 +70,7 @@ class MageAustralia_LuceneSearch_Model_Observer
         try {
             $category = $observer->getEvent()->getCategory();
             if ($category instanceof Mage_Catalog_Model_Category) {
-                $this->_getIndexer()->_getCategoryIndexer()->reindexCategory($category);
+                $this->_getIndexer()->getCategoryIndexer()->reindexCategory($category);
             }
         } catch (\Throwable $e) {
             Mage::logException($e);
@@ -105,7 +105,7 @@ class MageAustralia_LuceneSearch_Model_Observer
         try {
             $page = $observer->getEvent()->getObject();
             if ($page instanceof Mage_Cms_Model_Page) {
-                $this->_getIndexer()->_getCmsPageIndexer()->reindexCmsPage($page);
+                $this->_getIndexer()->getCmsPageIndexer()->reindexCmsPage($page);
             }
         } catch (\Throwable $e) {
             Mage::logException($e);

@@ -69,15 +69,15 @@ class MageAustralia_LuceneSearch_Model_Indexer
         $stats = ['products' => 0, 'categories' => 0, 'cms_pages' => 0];
 
         if ($helper->isProductIndexEnabled($storeId)) {
-            $stats['products'] = $this->_getProductIndexer()->reindexAll($storeId, $storeCode);
+            $stats['products'] = $this->getProductIndexer()->reindexAll($storeId, $storeCode);
         }
 
         if ($helper->isCategoryIndexEnabled($storeId)) {
-            $stats['categories'] = $this->_getCategoryIndexer()->reindexAll($storeId, $storeCode);
+            $stats['categories'] = $this->getCategoryIndexer()->reindexAll($storeId, $storeCode);
         }
 
         if ($helper->isCmsIndexEnabled($storeId)) {
-            $stats['cms_pages'] = $this->_getCmsPageIndexer()->reindexAll($storeId, $storeCode);
+            $stats['cms_pages'] = $this->getCmsPageIndexer()->reindexAll($storeId, $storeCode);
         }
 
         // Commit and optimize
@@ -127,17 +127,17 @@ class MageAustralia_LuceneSearch_Model_Indexer
         $index->optimize();
     }
 
-    public function _getProductIndexer(): MageAustralia_LuceneSearch_Model_Indexer_Product
+    public function getProductIndexer(): MageAustralia_LuceneSearch_Model_Indexer_Product
     {
         return Mage::getModel('lucenesearch/indexer_product');
     }
 
-    public function _getCategoryIndexer(): MageAustralia_LuceneSearch_Model_Indexer_Category
+    public function getCategoryIndexer(): MageAustralia_LuceneSearch_Model_Indexer_Category
     {
         return Mage::getModel('lucenesearch/indexer_category');
     }
 
-    public function _getCmsPageIndexer(): MageAustralia_LuceneSearch_Model_Indexer_CmsPage
+    public function getCmsPageIndexer(): MageAustralia_LuceneSearch_Model_Indexer_CmsPage
     {
         return Mage::getModel('lucenesearch/indexer_cmsPage');
     }

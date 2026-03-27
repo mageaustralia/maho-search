@@ -12,7 +12,6 @@ declare(strict_types=1);
  */
 
 use Maho\Search\Lucene\Search\QueryParser;
-use Maho\Search\Lucene\Search\Query\BooleanQuery;
 
 /**
  * Search service — queries the Lucene index and returns structured results.
@@ -76,6 +75,7 @@ class MageAustralia_LuceneSearch_Model_Search
 
                 switch ($type) {
                     case 'product':
+                        $thumbnailUrl = $doc->getFieldValue('thumbnail_url');
                         $products[] = [
                             'id' => $entityId,
                             'sku' => $doc->getFieldValue('sku_stored'),
@@ -83,7 +83,7 @@ class MageAustralia_LuceneSearch_Model_Search
                             'urlKey' => $doc->getFieldValue('url_key'),
                             'price' => (float) $doc->getFieldValue('price'),
                             'finalPrice' => (float) $doc->getFieldValue('final_price'),
-                            'thumbnailUrl' => $this->_getProductImageUrl($doc->getFieldValue('thumbnail'), $storeId),
+                            'thumbnailUrl' => $thumbnailUrl !== '' ? $thumbnailUrl : null,
                             'score' => $hit->score,
                         ];
                         break;
@@ -201,15 +201,6 @@ class MageAustralia_LuceneSearch_Model_Search
         $query = preg_replace('/[+\-!(){}\[\]^"~*?:\\\\\/&|]/', ' ', $query);
         // Collapse whitespace
         return trim(preg_replace('/\s+/', ' ', $query));
-    }
-
-    private function _getProductImageUrl(?string $image, int $storeId): ?string
-    {
-        if (!$image || $image === 'no_selection') {
-            return null;
-        }
-        $baseUrl = Mage::app()->getStore($storeId)->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
-        return $baseUrl . 'catalog/product' . $image;
     }
 
     private function _emptyResult(): array

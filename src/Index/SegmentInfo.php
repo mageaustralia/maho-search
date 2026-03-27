@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Index;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,35 +16,25 @@ namespace Maho\Search\Lucene\Index;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Index
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** \Maho\Search\Lucene\Index\TermsStream\TermsStreamInterface */
-// require_once 'Zend/Search/Lucene/Index/TermsStream/Interface.php';
 
 /** \Maho\Search\Lucene\Search\Similarity */
-// require_once 'Zend/Search/Lucene/Search/Similarity.php';
 
 /** \Maho\Search\Lucene\Index\FieldInfo */
-// require_once 'Zend/Search/Lucene/Index/FieldInfo.php';
 
 /** \Maho\Search\Lucene\Index\Term */
-// require_once 'Zend/Search/Lucene/Index/Term.php';
 
 /** \Maho\Search\Lucene\Index\TermInfo */
-// require_once 'Zend/Search/Lucene/Index/TermInfo.php';
 
 /**
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Index
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class SegmentInfo implements \Maho\Search\Lucene\Index\TermsStream\TermsStreamInterface
 {
@@ -264,7 +253,6 @@ class SegmentInfo implements \Maho\Search\Lucene\Index\TermsStream\TermsStreamIn
         } else {
             // It's a pre-2.1 segment or isCompound is set to 'unknown'
             // Detect if segment uses compound file
-            // require_once 'Zend/Search/Lucene/Exception.php';
             try {
                 // Try to open compound file
                 $this->_directory->getFileObject($name . '.cfs');
@@ -368,7 +356,6 @@ class SegmentInfo implements \Maho\Search\Lucene\Index\TermsStream\TermsStreamIn
      */
     private function _loadPre21DelFile()
     {
-        // require_once 'Zend/Search/Lucene/Exception.php';
         try {
             // '.del' files always stored in a separate file
             // Segment compound is not used
@@ -521,12 +508,10 @@ class SegmentInfo implements \Maho\Search\Lucene\Index\TermsStream\TermsStreamIn
             }
 
             if( !isset($this->_sharedDocStoreOptions['files'][$fdxFName]) ) {
-                // require_once 'Zend/Search/Lucene/Exception.php';
                 throw new \Maho\Search\Lucene\Exception('Shared doc storage segment compound file doesn\'t contain '
                                        . $fdxFName . ' file.' );
             }
             if( !isset($this->_sharedDocStoreOptions['files'][$fdtFName]) ) {
-                // require_once 'Zend/Search/Lucene/Exception.php';
                 throw new \Maho\Search\Lucene\Exception('Shared doc storage segment compound file doesn\'t contain '
                                        . $fdtFName . ' file.' );
             }
@@ -561,7 +546,6 @@ class SegmentInfo implements \Maho\Search\Lucene\Index\TermsStream\TermsStreamIn
         }
 
         if( !isset($this->_segFiles[$filename]) ) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Segment compound file doesn\'t contain '
                                        . $filename . ' file.' );
         }
@@ -587,7 +571,6 @@ class SegmentInfo implements \Maho\Search\Lucene\Index\TermsStream\TermsStreamIn
             }
 
             if( !isset($this->_sharedDocStoreOptions['fileSizes'][$filename]) ) {
-                // require_once 'Zend/Search/Lucene/Exception.php';
                 throw new \Maho\Search\Lucene\Exception('Shared doc store compound file doesn\'t contain '
                                            . $filename . ' file.' );
             }
@@ -603,7 +586,6 @@ class SegmentInfo implements \Maho\Search\Lucene\Index\TermsStream\TermsStreamIn
         }
 
         if( !isset($this->_segFileSizes[$filename]) ) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Index compound file doesn\'t contain '
                                        . $filename . ' file.' );
         }
@@ -792,7 +774,6 @@ class SegmentInfo implements \Maho\Search\Lucene\Index\TermsStream\TermsStreamIn
         $tiiFileData = $tiiFile->readBytes($this->compoundFileLength('.tii'));
 
         /** \Maho\Search\Lucene\Index\DictionaryLoader */
-        // require_once 'Zend/Search/Lucene/Index/DictionaryLoader.php';
 
         // Load dictionary index data
         list($this->_termDictionary, $this->_termDictionaryInfos) =
@@ -876,7 +857,6 @@ class SegmentInfo implements \Maho\Search\Lucene\Index\TermsStream\TermsStreamIn
         $tiVersion = $tisFile->readInt();
         if ($tiVersion != (int)0xFFFFFFFE /* pre-2.1 format */  &&
             $tiVersion != (int)0xFFFFFFFD /* 2.1+ format    */) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Wrong TermInfoFile file format');
         }
 
@@ -956,7 +936,6 @@ class SegmentInfo implements \Maho\Search\Lucene\Index\TermsStream\TermsStreamIn
 
         if ($docsFilter !== null) {
             if (!$docsFilter instanceof \Maho\Search\Lucene\Index\DocsFilter) {
-                // require_once 'Zend/Search/Lucene/Exception.php';
                 throw new \Maho\Search\Lucene\Exception('Documents filter must be an instance of \Maho\Search\Lucene\Index\DocsFilter or null.');
             }
 
@@ -1079,7 +1058,6 @@ class SegmentInfo implements \Maho\Search\Lucene\Index\TermsStream\TermsStreamIn
 
         if ($docsFilter !== null) {
             if (!$docsFilter instanceof \Maho\Search\Lucene\Index\DocsFilter) {
-                // require_once 'Zend/Search/Lucene/Exception.php';
                 throw new \Maho\Search\Lucene\Exception('Documents filter must be an instance of \Maho\Search\Lucene\Index\DocsFilter or null.');
             }
 
@@ -1204,7 +1182,6 @@ class SegmentInfo implements \Maho\Search\Lucene\Index\TermsStream\TermsStreamIn
 
         if ($docsFilter !== null) {
             if (!$docsFilter instanceof \Maho\Search\Lucene\Index\DocsFilter) {
-                // require_once 'Zend/Search/Lucene/Exception.php';
                 throw new \Maho\Search\Lucene\Exception('Documents filter must be an instance of \Maho\Search\Lucene\Index\DocsFilter or null.');
             }
 
@@ -1373,7 +1350,6 @@ class SegmentInfo implements \Maho\Search\Lucene\Index\TermsStream\TermsStreamIn
             $headerFormatVersion = $normfFile->readByte();
 
             if ($header != 'NRM'  ||  $headerFormatVersion != (int)0xFF) {
-                // require_once 'Zend/Search/Lucene/Exception.php';
                 throw new  \Maho\Search\Lucene\Exception('Wrong norms file format.');
             }
 
@@ -1568,7 +1544,6 @@ class SegmentInfo implements \Maho\Search\Lucene\Index\TermsStream\TermsStreamIn
 
                 return;
             } else {
-                // require_once 'Zend/Search/Lucene/Exception.php';
                 throw new \Maho\Search\Lucene\Exception('Delete file processing workflow is corrupted for the segment \'' . $this->_name . '\'.');
             }
         }
@@ -1766,7 +1741,6 @@ class SegmentInfo implements \Maho\Search\Lucene\Index\TermsStream\TermsStreamIn
          */
         $argList = func_get_args();
         if (count($argList) > 2) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Wrong number of arguments');
         } else if (count($argList) == 2) {
             $startId = $argList[0];
@@ -1789,7 +1763,6 @@ class SegmentInfo implements \Maho\Search\Lucene\Index\TermsStream\TermsStreamIn
         $tiVersion = $this->_tisFile->readInt();
         if ($tiVersion != (int)0xFFFFFFFE /* pre-2.1 format */  &&
             $tiVersion != (int)0xFFFFFFFD /* 2.1+ format    */) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Wrong TermInfoFile file format');
         }
 
@@ -1837,7 +1810,6 @@ class SegmentInfo implements \Maho\Search\Lucene\Index\TermsStream\TermsStreamIn
                 break;
 
             default:
-                // require_once 'Zend/Search/Lucene/Exception.php';
                 throw new \Maho\Search\Lucene\Exception('Wrong terms scaning mode specified.');
                 break;
         }

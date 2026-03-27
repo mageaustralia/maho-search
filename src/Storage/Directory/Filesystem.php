@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Storage\Directory;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,25 +16,19 @@ namespace Maho\Search\Lucene\Storage\Directory;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Storage
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** \Maho\Search\Lucene\Storage\Directory */
-// require_once 'Zend/Search/Lucene/Storage/Directory.php';
 
 /**
  * FileSystem implementation of Directory abstraction.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Storage
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Filesystem extends \Maho\Search\Lucene\Storage\Directory
 {
@@ -118,11 +111,9 @@ class Filesystem extends \Maho\Search\Lucene\Storage\Directory
     {
         if (!is_dir($path)) {
             if (file_exists($path)) {
-                // require_once 'Zend/Search/Lucene/Exception.php';
                 throw new \Maho\Search\Lucene\Exception('Path exists, but it\'s not a directory');
             } else {
                 if (!self::mkdirs($path)) {
-                    // require_once 'Zend/Search/Lucene/Exception.php';
                     throw new \Maho\Search\Lucene\Exception("Can't create directory '$path'.");
                 }
             }
@@ -180,7 +171,6 @@ class Filesystem extends \Maho\Search\Lucene\Storage\Directory
             $this->_fileHandlers[$filename]->close();
         }
         unset($this->_fileHandlers[$filename]);
-        // require_once 'Zend/Search/Lucene/Storage/File/Filesystem.php';
         $this->_fileHandlers[$filename] = new \Maho\Search\Lucene\Storage\File\Filesystem($this->_dirPath . '/' . $filename, 'w+b');
 
         // Set file permissions, but don't care about any possible failures, since file may be already
@@ -208,7 +198,6 @@ class Filesystem extends \Maho\Search\Lucene\Storage\Directory
         if (!@unlink($this->_dirPath . '/' . $filename)) {
             $err = error_get_last();
             $phpErrormsg = isset($err['message'][0]) ? $err['message'] : null;
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Can\'t delete file: ' . $phpErrormsg);
         }
     }
@@ -288,7 +277,6 @@ class Filesystem extends \Maho\Search\Lucene\Storage\Directory
 
         if (file_exists($this->_dirPath . '/' . $to)) {
             if (!unlink($this->_dirPath . '/' . $to)) {
-                // require_once 'Zend/Search/Lucene/Exception.php';
                 throw new \Maho\Search\Lucene\Exception('Delete operation failed');
             }
         }
@@ -297,7 +285,6 @@ class Filesystem extends \Maho\Search\Lucene\Storage\Directory
         if (!$success) {
             $err = error_get_last();
             $phpErrormsg = $err['message'];
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception($phpErrormsg);
         }
 
@@ -331,7 +318,6 @@ class Filesystem extends \Maho\Search\Lucene\Storage\Directory
     {
         $fullFilename = $this->_dirPath . '/' . $filename;
 
-        // require_once 'Zend/Search/Lucene/Storage/File/Filesystem.php';
         if (!$shareHandler) {
             return new \Maho\Search\Lucene\Storage\File\Filesystem($fullFilename);
         }

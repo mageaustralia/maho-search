@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Search\Query\Preprocessing;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,27 +16,21 @@ namespace Maho\Search\Lucene\Search\Query\Preprocessing;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** Zend_Search_Lucene_Search_Query_Processing */
-// require_once 'Zend/Search/Lucene/Search/Query/Preprocessing.php';
 
 /**
  * It's an internal abstract class intended to finalize ase a query processing after query parsing.
  * This type of query is not actually involved into query execution.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
  * @internal
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Fuzzy extends \Maho\Search\Lucene\Search\Query\Preprocessing
 {
@@ -98,19 +91,16 @@ class Fuzzy extends \Maho\Search\Lucene\Search\Query\Preprocessing
     public function rewrite(\Maho\Search\Lucene\LuceneInterface $index)
     {
         if ($this->_field === null) {
-            // require_once 'Zend/Search/Lucene/Search/Query/Boolean.php';
             $query = new \Maho\Search\Lucene\Search\Query\BooleanQuery();
 
             $hasInsignificantSubqueries = false;
 
-            // require_once 'Zend/Search/Lucene.php';
             if (\Maho\Search\Lucene\Lucene::getDefaultSearchField() === null) {
                 $searchFields = $index->getFieldNames(true);
             } else {
                 $searchFields = array(\Maho\Search\Lucene\Lucene::getDefaultSearchField());
             }
 
-            // require_once 'Zend/Search/Lucene/Search/Query/Preprocessing/Fuzzy.php';
             foreach ($searchFields as $fieldName) {
                 $subquery = new \Maho\Search\Lucene\Search\Query\Preprocessing\Fuzzy($this->_word,
                                                                                     $this->_encoding,
@@ -134,10 +124,8 @@ class Fuzzy extends \Maho\Search\Lucene\Search\Query\Preprocessing
             if (count($subqueries) == 0) {
                 $this->_matches = array();
                 if ($hasInsignificantSubqueries) {
-                    // require_once 'Zend/Search/Lucene/Search/Query/Insignificant.php';
                     return new \Maho\Search\Lucene\Search\Query\Insignificant();
                 } else {
-                    // require_once 'Zend/Search/Lucene/Search/Query/Empty.php';
                     return new \Maho\Search\Lucene\Search\Query\EmptyQuery();
                 }
             }
@@ -155,10 +143,8 @@ class Fuzzy extends \Maho\Search\Lucene\Search\Query\Preprocessing
         // -------------------------------------
         // Recognize exact term matching (it corresponds to Keyword fields stored in the index)
         // encoding is not used since we expect binary matching
-        // require_once 'Zend/Search/Lucene/Index/Term.php';
         $term = new \Maho\Search\Lucene\Index\Term($this->_word, $this->_field);
         if ($index->hasTerm($term)) {
-            // require_once 'Zend/Search/Lucene/Search/Query/Fuzzy.php';
             $query = new \Maho\Search\Lucene\Search\Query\Fuzzy($term, $this->_minimumSimilarity);
             $query->setBoost($this->getBoost());
 
@@ -179,25 +165,20 @@ class Fuzzy extends \Maho\Search\Lucene\Search\Query\Preprocessing
             $subPatterns = preg_split('/[*?]/', $this->_word);
         }
         if (count($subPatterns) > 1) {
-            // require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
             throw new \Maho\Search\Lucene\Search\QueryParserException('Fuzzy search doesn\'t support wildcards (except within Keyword fields).');
         }
 
         // -------------------------------------
         // Recognize one-term multi-term and "insignificant" queries
-        // require_once 'Zend/Search/Lucene/Analysis/Analyzer.php';
         $tokens = \Maho\Search\Lucene\Analysis\Analyzer::getDefault()->tokenize($this->_word, $this->_encoding);
 
         if (count($tokens) == 0) {
             $this->_matches = array();
-            // require_once 'Zend/Search/Lucene/Search/Query/Insignificant.php';
             return new \Maho\Search\Lucene\Search\Query\Insignificant();
         }
 
         if (count($tokens) == 1) {
-            // require_once 'Zend/Search/Lucene/Index/Term.php';
             $term  = new \Maho\Search\Lucene\Index\Term($tokens[0]->getTermText(), $this->_field);
-            // require_once 'Zend/Search/Lucene/Search/Query/Fuzzy.php';
             $query = new \Maho\Search\Lucene\Search\Query\Fuzzy($term, $this->_minimumSimilarity);
             $query->setBoost($this->getBoost());
 
@@ -209,7 +190,6 @@ class Fuzzy extends \Maho\Search\Lucene\Search\Query\Preprocessing
         }
 
         // Word is tokenized into several tokens
-        // require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
         throw new \Maho\Search\Lucene\Search\QueryParserException('Fuzzy search is supported only for non-multiple word terms');
     }
 
@@ -240,16 +220,13 @@ class Fuzzy extends \Maho\Search\Lucene\Search\Query\Preprocessing
 
         // -------------------------------------
         // Recognize one-term multi-term and "insignificant" queries
-        // require_once 'Zend/Search/Lucene/Analysis/Analyzer.php';
         $tokens = \Maho\Search\Lucene\Analysis\Analyzer::getDefault()->tokenize($this->_word, $this->_encoding);
         if (count($tokens) == 0) {
             // Do nothing
             return;
         }
         if (count($tokens) == 1) {
-            // require_once 'Zend/Search/Lucene/Index/Term.php';
             $term  = new \Maho\Search\Lucene\Index\Term($tokens[0]->getTermText(), $this->_field);
-            // require_once 'Zend/Search/Lucene/Search/Query/Fuzzy.php';
             $query = new \Maho\Search\Lucene\Search\Query\Fuzzy($term, $this->_minimumSimilarity);
 
             $query->_highlightMatches($highlighter);

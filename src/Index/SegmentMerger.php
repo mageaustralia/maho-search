@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Index;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,23 +16,17 @@ namespace Maho\Search\Lucene\Index;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Index
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** \Maho\Search\Lucene\Index\SegmentInfo */
-// require_once 'Zend/Search/Lucene/Index/SegmentInfo.php';
 
 /**
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Index
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class SegmentMerger
 {
@@ -85,7 +78,6 @@ class SegmentMerger
     public function __construct($directory, $name)
     {
         /** \Maho\Search\Lucene\Index\SegmentWriter\StreamWriter */
-        // require_once 'Zend/Search/Lucene/Index/SegmentWriter/StreamWriter.php';
         $this->_writer = new \Maho\Search\Lucene\Index\SegmentWriter\StreamWriter($directory, $name);
     }
 
@@ -110,12 +102,10 @@ class SegmentMerger
     public function merge()
     {
         if ($this->_mergeDone) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Merge is already done.');
         }
 
         if (count($this->_segmentInfos) < 1) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Wrong number of segments to be merged ('
                                                  . count($this->_segmentInfos)
                                                  . ').');
@@ -222,7 +212,6 @@ class SegmentMerger
     private function _mergeTerms()
     {
         /** \Maho\Search\Lucene\Index\TermsPriorityQueue */
-        // require_once 'Zend/Search/Lucene/Index/TermsPriorityQueue.php';
 
         $segmentInfoQueue = new \Maho\Search\Lucene\Index\TermsPriorityQueue();
 

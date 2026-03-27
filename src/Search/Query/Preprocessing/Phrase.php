@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Search\Query\Preprocessing;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,27 +16,21 @@ namespace Maho\Search\Lucene\Search\Query\Preprocessing;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** Zend_Search_Lucene_Search_Query_Processing */
-// require_once 'Zend/Search/Lucene/Search/Query/Preprocessing.php';
 
 /**
  * It's an internal abstract class intended to finalize ase a query processing after query parsing.
  * This type of query is not actually involved into query execution.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
  * @internal
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Phrase extends \Maho\Search\Lucene\Search\Query\Preprocessing
 {
@@ -127,17 +120,14 @@ class Phrase extends \Maho\Search\Lucene\Search\Query\Preprocessing
 // They are either removed by text analyzer or used as a part of keyword for keyword fields
 //
 //        if (strpos($this->_phrase, '?') !== false || strpos($this->_phrase, '*') !== false) {
-//            // require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
 //            throw new \Maho\Search\Lucene\Search\QueryParserException('Wildcards are only allowed in a single terms.');
 //        }
 
         // Split query into subqueries if field name is not specified
         if ($this->_field === null) {
-            // require_once 'Zend/Search/Lucene/Search/Query/Boolean.php';
             $query = new \Maho\Search\Lucene\Search\Query\BooleanQuery();
             $query->setBoost($this->getBoost());
 
-            // require_once 'Zend/Search/Lucene.php';
             if (\Maho\Search\Lucene\Lucene::getDefaultSearchField() === null) {
                 $searchFields = $index->getFieldNames(true);
             } else {
@@ -159,10 +149,8 @@ class Phrase extends \Maho\Search\Lucene\Search\Query\Preprocessing
 
         // Recognize exact term matching (it corresponds to Keyword fields stored in the index)
         // encoding is not used since we expect binary matching
-        // require_once 'Zend/Search/Lucene/Index/Term.php';
         $term = new \Maho\Search\Lucene\Index\Term($this->_phrase, $this->_field);
         if ($index->hasTerm($term)) {
-            // require_once 'Zend/Search/Lucene/Search/Query/Term.php';
             $query = new \Maho\Search\Lucene\Search\Query\Term($term);
             $query->setBoost($this->getBoost());
 
@@ -171,19 +159,15 @@ class Phrase extends \Maho\Search\Lucene\Search\Query\Preprocessing
         }
 
         // tokenize phrase using current analyzer and process it as a phrase query
-        // require_once 'Zend/Search/Lucene/Analysis/Analyzer.php';
         $tokens = \Maho\Search\Lucene\Analysis\Analyzer::getDefault()->tokenize($this->_phrase, $this->_phraseEncoding);
 
         if (count($tokens) == 0) {
             $this->_matches = array();
-            // require_once 'Zend/Search/Lucene/Search/Query/Insignificant.php';
             return new \Maho\Search\Lucene\Search\Query\Insignificant();
         }
 
         if (count($tokens) == 1) {
-            // require_once 'Zend/Search/Lucene/Index/Term.php';
             $term  = new \Maho\Search\Lucene\Index\Term($tokens[0]->getTermText(), $this->_field);
-            // require_once 'Zend/Search/Lucene/Search/Query/Term.php';
             $query = new \Maho\Search\Lucene\Search\Query\Term($term);
             $query->setBoost($this->getBoost());
 
@@ -193,9 +177,7 @@ class Phrase extends \Maho\Search\Lucene\Search\Query\Preprocessing
 
         //It's non-trivial phrase query
         $position = -1;
-        // require_once 'Zend/Search/Lucene/Search/Query/Phrase.php';
         $query = new \Maho\Search\Lucene\Search\Query\Phrase();
-        // require_once 'Zend/Search/Lucene/Index/Term.php';
         foreach ($tokens as $token) {
             $position += $token->getPositionIncrement();
             $term = new \Maho\Search\Lucene\Index\Term($token->getTermText(), $this->_field);
@@ -220,7 +202,6 @@ class Phrase extends \Maho\Search\Lucene\Search\Query\Preprocessing
         /** Skip wildcard queries recognition. Supported wildcards are removed by text analyzer */
 
         // tokenize phrase using current analyzer and process it as a phrase query
-        // require_once 'Zend/Search/Lucene/Analysis/Analyzer.php';
         $tokens = \Maho\Search\Lucene\Analysis\Analyzer::getDefault()->tokenize($this->_phrase, $this->_phraseEncoding);
 
         if (count($tokens) == 0) {

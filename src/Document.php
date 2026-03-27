@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,25 +16,19 @@ namespace Maho\Search\Lucene;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Document
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** \Maho\Search\Lucene\Field */
-// require_once 'Zend/Search/Lucene/Field.php';
 
 /**
  * A Document is a set of fields. Each field has a name and a textual value.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Document
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Document
 {
@@ -100,7 +93,6 @@ class Document
     public function getField($fieldName)
     {
         if (!array_key_exists($fieldName, $this->_fields)) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception("Field name \"$fieldName\" not found in document.");
         }
         return $this->_fields[$fieldName];

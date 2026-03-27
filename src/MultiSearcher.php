@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,29 +16,18 @@ namespace Maho\Search\Lucene;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  */
 
 /** \Maho\Search\Lucene\LuceneInterface */
-// require_once 'Zend/Search/Lucene/Interface.php';
 
-/**
- * Import Zend_Search_Lucene_Interface_MultiSearcher for BC (see ZF-12067)
- * @see Zend_Search_Lucene_Interface_MultiSearcher 
- */
-// require_once 'Zend/Search/Lucene/Interface/MultiSearcher.php';
 
 /**
  * Multisearcher allows to search through several independent indexes.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  */
 class MultiSearcher implements \Maho\Search\Lucene\LuceneInterface
 {
@@ -63,7 +51,6 @@ class MultiSearcher implements \Maho\Search\Lucene\LuceneInterface
 
         foreach ($this->_indices as $index) {
             if (!$index instanceof \Maho\Search\Lucene\LuceneInterface) {
-                // require_once 'Zend/Search/Lucene/Exception.php';
                 throw new \Maho\Search\Lucene\Exception('sub-index objects have to implement \Maho\Search\Lucene\LuceneInterface.');
             }
         }
@@ -92,7 +79,6 @@ class MultiSearcher implements \Maho\Search\Lucene\LuceneInterface
      */
     public static function getActualGeneration(\Maho\Search\Lucene\Storage\Directory $directory)
     {
-        // require_once 'Zend/Search/Lucene/Exception.php';
         throw new \Maho\Search\Lucene\Exception("Generation number can't be retrieved for multi-searcher");
     }
 
@@ -115,7 +101,6 @@ class MultiSearcher implements \Maho\Search\Lucene\LuceneInterface
      */
     public function getFormatVersion()
     {
-        // require_once 'Zend/Search/Lucene/Exception.php';
         throw new \Maho\Search\Lucene\Exception("Format version can't be retrieved for multi-searcher");
     }
 
@@ -139,7 +124,6 @@ class MultiSearcher implements \Maho\Search\Lucene\LuceneInterface
      */
     public function getDirectory()
     {
-        // require_once 'Zend/Search/Lucene/Exception.php';
         throw new \Maho\Search\Lucene\Exception("Index directory can't be retrieved for multi-searcher");
     }
 
@@ -207,7 +191,6 @@ class MultiSearcher implements \Maho\Search\Lucene\LuceneInterface
             $id -= $indexCount;
         }
 
-        // require_once 'Zend/Search/Lucene/Exception.php';
         throw new \Maho\Search\Lucene\Exception('Document id is out of the range.');
     }
 
@@ -238,7 +221,6 @@ class MultiSearcher implements \Maho\Search\Lucene\LuceneInterface
     public static function getDefaultSearchField()
     {
         if (count($this->_indices) == 0) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Indices list is empty');
         }
 
@@ -246,7 +228,6 @@ class MultiSearcher implements \Maho\Search\Lucene\LuceneInterface
 
         foreach ($this->_indices as $index) {
             if ($index->getDefaultSearchField() !== $defaultSearchField) {
-                // require_once 'Zend/Search/Lucene/Exception.php';
                 throw new \Maho\Search\Lucene\Exception('Indices have different default search field.');
             }
         }
@@ -279,7 +260,6 @@ class MultiSearcher implements \Maho\Search\Lucene\LuceneInterface
     public static function getResultSetLimit()
     {
         if (count($this->_indices) == 0) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Indices list is empty');
         }
 
@@ -287,7 +267,6 @@ class MultiSearcher implements \Maho\Search\Lucene\LuceneInterface
 
         foreach ($this->_indices as $index) {
             if ($index->getResultSetLimit() !== $defaultResultSetLimit) {
-                // require_once 'Zend/Search/Lucene/Exception.php';
                 throw new \Maho\Search\Lucene\Exception('Indices have different default search field.');
             }
         }
@@ -309,7 +288,6 @@ class MultiSearcher implements \Maho\Search\Lucene\LuceneInterface
     public function getMaxBufferedDocs()
     {
         if (count($this->_indices) == 0) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Indices list is empty');
         }
 
@@ -317,7 +295,6 @@ class MultiSearcher implements \Maho\Search\Lucene\LuceneInterface
 
         foreach ($this->_indices as $index) {
             if ($index->getMaxBufferedDocs() !== $maxBufferedDocs) {
-                // require_once 'Zend/Search/Lucene/Exception.php';
                 throw new \Maho\Search\Lucene\Exception('Indices have different default search field.');
             }
         }
@@ -358,7 +335,6 @@ class MultiSearcher implements \Maho\Search\Lucene\LuceneInterface
     public function getMaxMergeDocs()
     {
         if (count($this->_indices) == 0) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Indices list is empty');
         }
 
@@ -366,7 +342,6 @@ class MultiSearcher implements \Maho\Search\Lucene\LuceneInterface
 
         foreach ($this->_indices as $index) {
             if ($index->getMaxMergeDocs() !== $maxMergeDocs) {
-                // require_once 'Zend/Search/Lucene/Exception.php';
                 throw new \Maho\Search\Lucene\Exception('Indices have different default search field.');
             }
         }
@@ -414,7 +389,6 @@ class MultiSearcher implements \Maho\Search\Lucene\LuceneInterface
     public function getMergeFactor()
     {
         if (count($this->_indices) == 0) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Indices list is empty');
         }
 
@@ -422,7 +396,6 @@ class MultiSearcher implements \Maho\Search\Lucene\LuceneInterface
 
         foreach ($this->_indices as $index) {
             if ($index->getMergeFactor() !== $mergeFactor) {
-                // require_once 'Zend/Search/Lucene/Exception.php';
                 throw new \Maho\Search\Lucene\Exception('Indices have different default search field.');
             }
         }
@@ -532,7 +505,6 @@ class MultiSearcher implements \Maho\Search\Lucene\LuceneInterface
             $id -= $indexCount;
         }
 
-        // require_once 'Zend/Search/Lucene/Exception.php';
         throw new \Maho\Search\Lucene\Exception('Document id is out of the range.');
     }
 
@@ -566,7 +538,6 @@ class MultiSearcher implements \Maho\Search\Lucene\LuceneInterface
     public function termDocs(\Maho\Search\Lucene\Index\Term $term, $docsFilter = null)
     {
         if ($docsFilter != null) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Document filters could not used with multi-searcher');
         }
 
@@ -602,7 +573,6 @@ class MultiSearcher implements \Maho\Search\Lucene\LuceneInterface
      */
     public function termDocsFilter(\Maho\Search\Lucene\Index\Term $term, $docsFilter = null)
     {
-        // require_once 'Zend/Search/Lucene/Exception.php';
         throw new \Maho\Search\Lucene\Exception('Document filters could not used with multi-searcher');
     }
 
@@ -618,7 +588,6 @@ class MultiSearcher implements \Maho\Search\Lucene\LuceneInterface
     public function termFreqs(\Maho\Search\Lucene\Index\Term $term, $docsFilter = null)
     {
         if ($docsFilter != null) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Document filters could not used with multi-searcher');
         }
 
@@ -656,7 +625,6 @@ class MultiSearcher implements \Maho\Search\Lucene\LuceneInterface
     public function termPositions(\Maho\Search\Lucene\Index\Term $term, $docsFilter = null)
     {
         if ($docsFilter != null) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Document filters could not used with multi-searcher');
         }
 
@@ -708,7 +676,6 @@ class MultiSearcher implements \Maho\Search\Lucene\LuceneInterface
     public function getSimilarity()
     {
         if (count($this->_indices) == 0) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Indices list is empty');
         }
 
@@ -716,7 +683,6 @@ class MultiSearcher implements \Maho\Search\Lucene\LuceneInterface
 
         foreach ($this->_indices as $index) {
             if ($index->getSimilarity() !== $similarity) {
-                // require_once 'Zend/Search/Lucene/Exception.php';
                 throw new \Maho\Search\Lucene\Exception('Indices have different similarity.');
             }
         }
@@ -782,7 +748,6 @@ class MultiSearcher implements \Maho\Search\Lucene\LuceneInterface
             $id -= $indexCount;
         }
 
-        // require_once 'Zend/Search/Lucene/Exception.php';
         throw new \Maho\Search\Lucene\Exception('Document id is out of the range.');
     }
 
@@ -807,7 +772,6 @@ class MultiSearcher implements \Maho\Search\Lucene\LuceneInterface
     public function setDocumentDistributorCallback($callback)
     {
         if ($callback !== null  &&  !is_callable($callback)) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('$callback parameter must be a valid callback.');
         }
 
@@ -893,7 +857,6 @@ class MultiSearcher implements \Maho\Search\Lucene\LuceneInterface
     {
         if ($this->_termsStream === null) {
             /** \Maho\Search\Lucene\TermStreamsPriorityQueue */
-            // require_once 'Zend/Search/Lucene/TermStreamsPriorityQueue.php';
 
             $this->_termsStream = new \Maho\Search\Lucene\TermStreamsPriorityQueue($this->_indices);
         } else {

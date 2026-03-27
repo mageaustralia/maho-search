@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Search;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,26 +16,19 @@ namespace Maho\Search\Lucene\Search;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** \Maho\Search\Lucene\FSM */
-// require_once 'Zend/Search/Lucene/FSM.php';
 
 /** \Maho\Search\Lucene\Search\QueryParser */
-// require_once 'Zend/Search/Lucene/Search/QueryToken.php';
 
 /**
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class QueryLexer extends \Maho\Search\Lucene\FSM
 {
@@ -348,7 +340,6 @@ class QueryLexer extends \Maho\Search\Lucene\FSM
         $this->process(self::IN_WHITE_SPACE);
 
         if ($this->getState() != self::ST_WHITE_SPACE) {
-            // require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
             throw new \Maho\Search\Lucene\Search\QueryParserException('Unexpected end of query');
         }
 
@@ -380,7 +371,6 @@ class QueryLexer extends \Maho\Search\Lucene\FSM
             // check,
             if ($this->_queryStringPosition == count($this->_queryString)  ||
                 $this->_queryString[$this->_queryStringPosition] != $lexeme) {
-                    // require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
                     throw new \Maho\Search\Lucene\Search\QueryParserException('Two chars lexeme expected. ' . $this->_positionMsg());
                 }
 
@@ -397,7 +387,6 @@ class QueryLexer extends \Maho\Search\Lucene\FSM
         if ($token->type == \Maho\Search\Lucene\Search\QueryToken::TT_FIELD_INDICATOR) {
             $token = array_pop($this->_lexemes);
             if ($token === null  ||  $token->type != \Maho\Search\Lucene\Search\QueryToken::TT_WORD) {
-                // require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
                 throw new \Maho\Search\Lucene\Search\QueryParserException('Field mark \':\' must follow field name. ' . $this->_positionMsg());
             }
 
@@ -479,17 +468,14 @@ class QueryLexer extends \Maho\Search\Lucene\FSM
      *********************************************************************/
     public function lexModifierErrException()
     {
-        // require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
         throw new \Maho\Search\Lucene\Search\QueryParserException('Lexeme modifier character can be followed only by number, white space or query syntax element. ' . $this->_positionMsg());
     }
     public function quoteWithinLexemeErrException()
     {
-        // require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
         throw new \Maho\Search\Lucene\Search\QueryParserException('Quote within lexeme must be escaped by \'\\\' char. ' . $this->_positionMsg());
     }
     public function wrongNumberErrException()
     {
-        // require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
         throw new \Maho\Search\Lucene\Search\QueryParserException('Wrong number syntax.' . $this->_positionMsg());
     }
 }

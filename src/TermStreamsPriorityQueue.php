@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,23 +16,17 @@ namespace Maho\Search\Lucene;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Index
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** \Maho\Search\Lucene\Index\TermsStream\TermsStreamInterface */
-// require_once 'Zend/Search/Lucene/Index/TermsStream/Interface.php';
 
 /**
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Index
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class TermStreamsPriorityQueue implements \Maho\Search\Lucene\Index\TermsStream\TermsStreamInterface
 {
@@ -76,7 +69,6 @@ class TermStreamsPriorityQueue implements \Maho\Search\Lucene\Index\TermsStream\
     public function resetTermsStream()
     {
         /** \Maho\Search\Lucene\Index\TermsPriorityQueue */
-        // require_once 'Zend/Search/Lucene/Index/TermsPriorityQueue.php';
 
         $this->_termsStreamQueue = new \Maho\Search\Lucene\Index\TermsPriorityQueue();
 

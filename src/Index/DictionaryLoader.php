@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Index;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,12 +16,9 @@ namespace Maho\Search\Lucene\Index;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Index
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /**
@@ -33,11 +29,9 @@ namespace Maho\Search\Lucene\Index;
  * which is major bottelneck for search performance.
  *
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Index
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class DictionaryLoader
 {
@@ -64,7 +58,6 @@ class DictionaryLoader
         $pos += 4;
         if ($tiVersion != (int)0xFFFFFFFE /* pre-2.1 format */ &&
             $tiVersion != (int)0xFFFFFFFD /* 2.1+ format    */) {
-                // require_once 'Zend/Search/Lucene/Exception.php';
                 throw new \Maho\Search\Lucene\Exception('Wrong TermInfoIndexFile file format');
         }
 
@@ -84,7 +77,6 @@ class DictionaryLoader
                 (ord($data[$pos+2])          != 0) ||
                 (ord($data[$pos+3])          != 0) ||
                 ((ord($data[$pos+4]) & 0x80) != 0)) {
-                    // require_once 'Zend/Search/Lucene/Exception.php';
                     throw new \Maho\Search\Lucene\Exception('Largest supported segment size (for 32-bit mode) is 2Gb');
                  }
 
@@ -102,7 +94,6 @@ class DictionaryLoader
         $skipInterval = ord($data[$pos]) << 24 | ord($data[$pos+1]) << 16 | ord($data[$pos+2]) << 8  | ord($data[$pos+3]);
         $pos += 4;
         if ($indexTermCount < 1) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Wrong number of terms in a term dictionary index');
         }
 
@@ -257,7 +248,6 @@ class DictionaryLoader
 
         // Check special index entry mark
         if ($termDictionary[0][0] != (int)0xFFFFFFFF) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Wrong TermInfoIndexFile file format');
         }
 

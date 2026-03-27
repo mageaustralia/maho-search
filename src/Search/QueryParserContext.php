@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Search;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,23 +16,17 @@ namespace Maho\Search\Lucene\Search;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** \Maho\Search\Lucene\Search\QueryToken */
-// require_once 'Zend/Search/Lucene/Search/QueryToken.php';
 
 /**
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class QueryParserContext
 {
@@ -141,7 +134,6 @@ class QueryParserContext
     public function setNextEntrySign($sign)
     {
         if ($this->_mode === self::GM_BOOLEAN) {
-            // require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
             throw new \Maho\Search\Lucene\Search\QueryParserException('It\'s not allowed to mix boolean and signs styles in the same subquery.');
         }
 
@@ -152,7 +144,6 @@ class QueryParserContext
         } else if ($sign == \Maho\Search\Lucene\Search\QueryToken::TT_PROHIBITED) {
             $this->_nextEntrySign = false;
         } else {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Unrecognized sign type.');
         }
     }
@@ -183,7 +174,6 @@ class QueryParserContext
     {
         // Check, that modifier has came just after word or phrase
         if ($this->_nextEntryField !== null  ||  $this->_nextEntrySign !== null) {
-            // require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
             throw new \Maho\Search\Lucene\Search\QueryParserException('\'~\' modifier must follow word or phrase.');
         }
 
@@ -191,7 +181,6 @@ class QueryParserContext
 
         if (!$lastEntry instanceof \Maho\Search\Lucene\Search\QueryEntry) {
             // there are no entries or last entry is boolean operator
-            // require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
             throw new \Maho\Search\Lucene\Search\QueryParserException('\'~\' modifier must follow word or phrase.');
         }
 
@@ -209,7 +198,6 @@ class QueryParserContext
     {
         // Check, that modifier has came just after word or phrase
         if ($this->_nextEntryField !== null  ||  $this->_nextEntrySign !== null) {
-            // require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
             throw new \Maho\Search\Lucene\Search\QueryParserException('\'^\' modifier must follow word, phrase or subquery.');
         }
 
@@ -217,7 +205,6 @@ class QueryParserContext
 
         if (!$lastEntry instanceof \Maho\Search\Lucene\Search\QueryEntry) {
             // there are no entries or last entry is boolean operator
-            // require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
             throw new \Maho\Search\Lucene\Search\QueryParserException('\'^\' modifier must follow word, phrase or subquery.');
         }
 
@@ -234,7 +221,6 @@ class QueryParserContext
     public function addLogicalOperator($operator)
     {
         if ($this->_mode === self::GM_SIGNS) {
-            // require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
             throw new \Maho\Search\Lucene\Search\QueryParserException('It\'s not allowed to mix boolean and signs styles in the same subquery.');
         }
 
@@ -251,10 +237,8 @@ class QueryParserContext
      */
     public function _signStyleExpressionQuery()
     {
-        // require_once 'Zend/Search/Lucene/Search/Query/Boolean.php';
         $query = new \Maho\Search\Lucene\Search\Query\BooleanQuery();
 
-        // require_once 'Zend/Search/Lucene/Search/QueryParser.php';
         if (\Maho\Search\Lucene\Search\QueryParser::getDefaultOperator() == \Maho\Search\Lucene\Search\QueryParser::B_AND) {
             $defaultSign = true; // required
         } else {
@@ -289,10 +273,8 @@ class QueryParserContext
          * one or more query entries
          */
 
-        // require_once 'Zend/Search/Lucene/Search/BooleanExpressionRecognizer.php';
         $expressionRecognizer = new \Maho\Search\Lucene\Search\BooleanExpressionRecognizer();
 
-        // require_once 'Zend/Search/Lucene/Exception.php';
         try {
             foreach ($this->_entries as $entry) {
                 if ($entry instanceof \Maho\Search\Lucene\Search\QueryEntry) {
@@ -322,7 +304,6 @@ class QueryParserContext
             // throw new \Maho\Search\Lucene\Search\QueryParserException('Boolean expression error. Error message: \'' .
             //                                                          $e->getMessage() . '\'.' );
             // It's query syntax error message and it should be user friendly. So FSM message is omitted
-            // require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
             throw new \Maho\Search\Lucene\Search\QueryParserException('Boolean expression error.', 0, $e);
         }
 
@@ -348,7 +329,6 @@ class QueryParserContext
             if (count($conjuction) == 1) {
                 $subqueries[] = $conjuction[0][0]->getQuery($this->_encoding);
             } else {
-                // require_once 'Zend/Search/Lucene/Search/Query/Boolean.php';
                 $subquery = new \Maho\Search\Lucene\Search\Query\BooleanQuery();
 
                 foreach ($conjuction as $conjuctionEntry) {
@@ -360,7 +340,6 @@ class QueryParserContext
         }
 
         if (count($subqueries) == 0) {
-            // require_once 'Zend/Search/Lucene/Search/Query/Insignificant.php';
             return new \Maho\Search\Lucene\Search\Query\Insignificant();
         }
 
@@ -368,7 +347,6 @@ class QueryParserContext
             return $subqueries[0];
         }
 
-        // require_once 'Zend/Search/Lucene/Search/Query/Boolean.php';
         $query = new \Maho\Search\Lucene\Search\Query\BooleanQuery();
 
         foreach ($subqueries as $subquery) {

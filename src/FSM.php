@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,15 +16,11 @@ namespace Maho\Search\Lucene;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  */
 
 /** \Maho\Search\Lucene\FSMAction */
-// require_once 'Zend/Search/Lucene/FSMAction.php';
 
 /**
  * Abstract Finite State Machine
@@ -36,10 +31,8 @@ namespace Maho\Search\Lucene;
  * process() methods invokes a specified actions which may construct FSM output.
  * Actions may be also used to signal, that we have reached Accept State
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  */
 abstract class FSM
 {
@@ -182,7 +175,6 @@ abstract class FSM
     public function setState($state)
     {
         if (!isset($this->_states[$state])) {
-            // require_once 'Zend/Search/Exception.php';
             throw new \Maho\Search\Lucene\Exception('State \'' . $state . '\' is not on of the possible FSM states.');
         }
 
@@ -252,15 +244,12 @@ abstract class FSM
     public function addRule($sourceState, $input, $targetState, $inputAction = null)
     {
         if (!isset($this->_states[$sourceState])) {
-            // require_once 'Zend/Search/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Undefined source state (' . $sourceState . ').');
         }
         if (!isset($this->_states[$targetState])) {
-            // require_once 'Zend/Search/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Undefined target state (' . $targetState . ').');
         }
         if (!isset($this->_inputAphabet[$input])) {
-            // require_once 'Zend/Search/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Undefined input symbol (' . $input . ').');
         }
 
@@ -268,7 +257,6 @@ abstract class FSM
             $this->_rules[$sourceState] = array();
         }
         if (isset($this->_rules[$sourceState][$input])) {
-            // require_once 'Zend/Search/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Rule for {state,input} pair (' . $sourceState . ', '. $input . ') is already defined.');
         }
 
@@ -290,7 +278,6 @@ abstract class FSM
     public function addEntryAction($state, \Maho\Search\Lucene\FSMAction $action)
     {
         if (!isset($this->_states[$state])) {
-            // require_once 'Zend/Search/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Undefined state (' . $state. ').');
         }
 
@@ -312,7 +299,6 @@ abstract class FSM
     public function addExitAction($state, \Maho\Search\Lucene\FSMAction $action)
     {
         if (!isset($this->_states[$state])) {
-            // require_once 'Zend/Search/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Undefined state (' . $state. ').');
         }
 
@@ -335,11 +321,9 @@ abstract class FSM
     public function addInputAction($state, $inputSymbol, \Maho\Search\Lucene\FSMAction $action)
     {
         if (!isset($this->_states[$state])) {
-            // require_once 'Zend/Search/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Undefined state (' . $state. ').');
         }
         if (!isset($this->_inputAphabet[$inputSymbol])) {
-            // require_once 'Zend/Search/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Undefined input symbol (' . $inputSymbol. ').');
         }
 
@@ -365,11 +349,9 @@ abstract class FSM
     public function addTransitionAction($sourceState, $targetState, \Maho\Search\Lucene\FSMAction $action)
     {
         if (!isset($this->_states[$sourceState])) {
-            // require_once 'Zend/Search/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Undefined source state (' . $sourceState. ').');
         }
         if (!isset($this->_states[$targetState])) {
-            // require_once 'Zend/Search/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Undefined source state (' . $targetState. ').');
         }
 
@@ -392,11 +374,9 @@ abstract class FSM
     public function process($input)
     {
         if (!isset($this->_rules[$this->_currentState])) {
-            // require_once 'Zend/Search/Exception.php';
             throw new \Maho\Search\Lucene\Exception('There is no any rule for current state (' . $this->_currentState . ').');
         }
         if (!isset($this->_rules[$this->_currentState][$input])) {
-            // require_once 'Zend/Search/Exception.php';
             throw new \Maho\Search\Lucene\Exception('There is no any rule for {current state, input} pair (' . $this->_currentState . ', ' . $input . ').');
         }
 
@@ -433,7 +413,6 @@ abstract class FSM
     public function reset()
     {
         if (count($this->_states) == 0) {
-            // require_once 'Zend/Search/Exception.php';
             throw new \Maho\Search\Lucene\Exception('There is no any state defined for FSM.');
         }
 

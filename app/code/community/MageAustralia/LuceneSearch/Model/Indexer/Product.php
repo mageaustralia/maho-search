@@ -51,6 +51,13 @@ class MageAustralia_LuceneSearch_Model_Indexer_Product
             $collection->addAttributeToSelect($attr);
         }
 
+        // Always load fields needed for stored document data
+        $collection->addAttributeToSelect('url_key');
+        $collection->addAttributeToSelect('price');
+        $collection->addAttributeToSelect('special_price');
+        $collection->addAttributeToSelect('small_image');
+        $collection->addAttributeToSelect('thumbnail');
+
         if ($helper->isProductCategoryPathsEnabled($storeId)) {
             $collection->addCategoryIds();
         }
@@ -133,11 +140,23 @@ class MageAustralia_LuceneSearch_Model_Indexer_Product
         // Use _stored suffix to avoid collision with searchable fields of same name
         $doc->addField(Field::unIndexed('sku_stored', (string) $product->getSku()));
         $doc->addField(Field::unIndexed('name_stored', (string) $product->getName()));
-        $doc->addField(Field::unIndexed('url_key', (string) $product->getUrlKey()));
-        $doc->addField(Field::unIndexed('price', (string) $product->getPrice()));
-        $doc->addField(Field::unIndexed('final_price', (string) $product->getFinalPrice()));
-        $doc->addField(Field::unIndexed('small_image', (string) $product->getSmallImage()));
-        $doc->addField(Field::unIndexed('thumbnail', (string) $product->getThumbnail()));
+        $doc->addField(Field::unIndexed('url_key', (string) ($product->getUrlKey() ?: '')));
+
+        $price = $product->getPrice();
+        $finalPrice = $product->getFinalPrice();
+        $doc->addField(Field::unIndexed('price', (string) ($price ?: '0')));
+        $doc->addField(Field::unIndexed('final_price', (string) ($finalPrice ?: '0')));
+
+        // Store full image URLs for API responses
+        $mediaUrl = Mage::app()->getStore($storeId)->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
+        $thumbnail = $product->getThumbnail();
+        $smallImage = $product->getSmallImage();
+        $thumbnailUrl = ($thumbnail && $thumbnail !== 'no_selection')
+            ? $mediaUrl . 'catalog/product' . $thumbnail : '';
+        $smallImageUrl = ($smallImage && $smallImage !== 'no_selection')
+            ? $mediaUrl . 'catalog/product' . $smallImage : '';
+        $doc->addField(Field::unIndexed('thumbnail_url', $thumbnailUrl));
+        $doc->addField(Field::unIndexed('small_image_url', $smallImageUrl));
 
         $synonymFilter = $helper->getSynonymFilter();
         $ngramFilter = $helper->getEdgeNgramFilter();

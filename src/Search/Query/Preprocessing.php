@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Search\Query;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,27 +16,21 @@ namespace Maho\Search\Lucene\Search\Query;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** \Maho\Search\Lucene\Search\Query */
-// require_once 'Zend/Search/Lucene/Search/Query.php';
 
 /**
  * It's an internal abstract class intended to finalize ase a query processing after query parsing.
  * This type of query is not actually involved into query execution.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
  * @internal
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Preprocessing extends \Maho\Search\Lucene\Search\Query
 {
@@ -61,7 +54,6 @@ abstract class Preprocessing extends \Maho\Search\Lucene\Search\Query
      */
     public function optimize(\Maho\Search\Lucene\LuceneInterface $index)
     {
-        // require_once 'Zend/Search/Lucene/Exception.php';
         throw new \Maho\Search\Lucene\Exception('This query is not intended to be executed.');
     }
 
@@ -73,7 +65,6 @@ abstract class Preprocessing extends \Maho\Search\Lucene\Search\Query
      */
     public function createWeight(\Maho\Search\Lucene\LuceneInterface $reader)
     {
-        // require_once 'Zend/Search/Lucene/Exception.php';
         throw new \Maho\Search\Lucene\Exception('This query is not intended to be executed.');
     }
 
@@ -86,7 +77,6 @@ abstract class Preprocessing extends \Maho\Search\Lucene\Search\Query
      */
     public function execute(\Maho\Search\Lucene\LuceneInterface $reader, $docsFilter = null)
     {
-        // require_once 'Zend/Search/Lucene/Exception.php';
         throw new \Maho\Search\Lucene\Exception('This query is not intended to be executed.');
     }
 
@@ -99,7 +89,6 @@ abstract class Preprocessing extends \Maho\Search\Lucene\Search\Query
      */
     public function matchedDocs()
     {
-        // require_once 'Zend/Search/Lucene/Exception.php';
         throw new \Maho\Search\Lucene\Exception('This query is not intended to be executed.');
     }
 
@@ -112,7 +101,6 @@ abstract class Preprocessing extends \Maho\Search\Lucene\Search\Query
      */
     public function score($docId, \Maho\Search\Lucene\LuceneInterface $reader)
     {
-        // require_once 'Zend/Search/Lucene/Exception.php';
         throw new \Maho\Search\Lucene\Exception('This query is not intended to be executed.');
     }
 
@@ -123,7 +111,6 @@ abstract class Preprocessing extends \Maho\Search\Lucene\Search\Query
      */
     public function getQueryTerms()
     {
-        // require_once 'Zend/Search/Lucene/Exception.php';
         throw new \Maho\Search\Lucene\Exception('Rewrite operation has to be done before retrieving query terms.');
     }
 }

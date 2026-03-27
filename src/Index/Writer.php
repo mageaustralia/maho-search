@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Index;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,23 +16,17 @@ namespace Maho\Search\Lucene\Index;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Index
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** \Maho\Search\Lucene\LockManager */
-// require_once 'Zend/Search/Lucene/LockManager.php';
 
 /**
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Index
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Writer
 {
@@ -236,7 +229,6 @@ class Writer
     public function addDocument(\Maho\Search\Lucene\Document $document)
     {
         /** \Maho\Search\Lucene\Index\SegmentWriter\DocumentWriter */
-        // require_once 'Zend/Search/Lucene/Index/SegmentWriter/DocumentWriter.php';
 
         if ($this->_currentSegment === null) {
             $this->_currentSegment =
@@ -374,7 +366,6 @@ class Writer
         $newName = $this->_newSegmentName();
 
         /** \Maho\Search\Lucene\Index\SegmentMerger */
-        // require_once 'Zend/Search/Lucene/Index/SegmentMerger.php';
         $merger = new \Maho\Search\Lucene\Index\SegmentMerger($this->_directory,
                                                              $newName);
         foreach ($segments as $segmentInfo) {
@@ -517,7 +508,6 @@ class Writer
                         }
 
                         /** \Maho\Search\Lucene\Index\SegmentInfo */
-                        // require_once 'Zend/Search/Lucene/Index/SegmentInfo.php';
                         $this->_segmentInfos[$segName] =
                                     new \Maho\Search\Lucene\Index\SegmentInfo($this->_directory,
                                                                              $segName,
@@ -602,7 +592,6 @@ class Writer
             \Maho\Search\Lucene\LockManager::releaseWriteLock($this->_directory);
 
             // Throw the exception
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception($e->getMessage(), $e->getCode(), $e);
         }
 

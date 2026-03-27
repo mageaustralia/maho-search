@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Search\Query;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,23 +16,17 @@ namespace Maho\Search\Lucene\Search\Query;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** \Maho\Search\Lucene\Search\Query */
-// require_once 'Zend/Search/Lucene/Search/Query.php';
 
 /**
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class MultiTerm extends \Maho\Search\Lucene\Search\Query
 {
@@ -106,7 +99,6 @@ class MultiTerm extends \Maho\Search\Lucene\Search\Query
     public function __construct($terms = null, $signs = null)
     {
         if (is_array($terms)) {
-            // require_once 'Zend/Search/Lucene.php';
             if (count($terms) > \Maho\Search\Lucene\Lucene::getTermsPerQueryLimit()) {
                 throw new \Maho\Search\Lucene\Exception('Terms per query limit is reached.');
             }
@@ -161,7 +153,6 @@ class MultiTerm extends \Maho\Search\Lucene\Search\Query
     public function rewrite(\Maho\Search\Lucene\LuceneInterface $index)
     {
         if (count($this->_terms) == 0) {
-            // require_once 'Zend/Search/Lucene/Search/Query/Empty.php';
             return new \Maho\Search\Lucene\Search\Query\EmptyQuery();
         }
 
@@ -178,11 +169,9 @@ class MultiTerm extends \Maho\Search\Lucene\Search\Query
             return $this;
         } else {
             /** transform multiterm query to boolean and apply rewrite() method to subqueries. */
-            // require_once 'Zend/Search/Lucene/Search/Query/Boolean.php';
             $query = new \Maho\Search\Lucene\Search\Query\BooleanQuery();
             $query->setBoost($this->getBoost());
 
-            // require_once 'Zend/Search/Lucene/Search/Query/Term.php';
             foreach ($this->_terms as $termId => $term) {
                 $subquery = new \Maho\Search\Lucene\Search\Query\Term($term);
 
@@ -209,7 +198,6 @@ class MultiTerm extends \Maho\Search\Lucene\Search\Query
             if (!$index->hasTerm($term)) {
                 if ($signs === null  ||  $signs[$id] === true) {
                     // Term is required
-                    // require_once 'Zend/Search/Lucene/Search/Query/Empty.php';
                     return new \Maho\Search\Lucene\Search\Query\EmptyQuery();
                 } else {
                     // Term is optional or prohibited
@@ -233,7 +221,6 @@ class MultiTerm extends \Maho\Search\Lucene\Search\Query
             }
         }
         if ($allProhibited) {
-            // require_once 'Zend/Search/Lucene/Search/Query/Empty.php';
             return new \Maho\Search\Lucene\Search\Query\EmptyQuery();
         }
 
@@ -246,7 +233,6 @@ class MultiTerm extends \Maho\Search\Lucene\Search\Query
             // It's already checked, that it's not a prohibited term
 
             // It's one term query with one required or optional element
-            // require_once 'Zend/Search/Lucene/Search/Query/Term.php';
             $optimizedQuery = new \Maho\Search\Lucene\Search\Query\Term(reset($terms));
             $optimizedQuery->setBoost($this->getBoost());
 
@@ -254,7 +240,6 @@ class MultiTerm extends \Maho\Search\Lucene\Search\Query
         }
 
         if (count($terms) == 0) {
-            // require_once 'Zend/Search/Lucene/Search/Query/Empty.php';
             return new \Maho\Search\Lucene\Search\Query\EmptyQuery();
         }
 
@@ -302,7 +287,6 @@ class MultiTerm extends \Maho\Search\Lucene\Search\Query
      */
     public function createWeight(\Maho\Search\Lucene\LuceneInterface $reader)
     {
-        // require_once 'Zend/Search/Lucene/Search/Weight/MultiTerm.php';
         $this->_weight = new \Maho\Search\Lucene\Search\Weight\MultiTerm($this, $reader);
         return $this->_weight;
     }
@@ -332,7 +316,6 @@ class MultiTerm extends \Maho\Search\Lucene\Search\Query
                         $ids,      SORT_ASC, SORT_NUMERIC,
                         $this->_terms);
 
-        // require_once 'Zend/Search/Lucene/Index/DocsFilter.php';
         $docsFilter = new \Maho\Search\Lucene\Index\DocsFilter();
         foreach ($this->_terms as $termId => $term) {
             $termDocs = $reader->termDocs($term, $docsFilter);

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Search\QueryEntry;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,23 +16,17 @@ namespace Maho\Search\Lucene\Search\QueryEntry;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** \Maho\Search\Lucene\Search\QueryEntry */
-// require_once 'Zend/Search/Lucene/Search/QueryEntry.php';
 
 /**
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Term extends \Maho\Search\Lucene\Search\QueryEntry
 {
@@ -90,7 +83,6 @@ class Term extends \Maho\Search\Lucene\Search\QueryEntry
             $this->_similarity = $parameter;
         } else {
             /** \Maho\Search\Lucene\Search\Query\Fuzzy */
-            // require_once 'Zend/Search/Lucene/Search/Query/Fuzzy.php';
             $this->_similarity = \Maho\Search\Lucene\Search\Query\Fuzzy::DEFAULT_MIN_SIMILARITY;
         }
     }
@@ -106,7 +98,6 @@ class Term extends \Maho\Search\Lucene\Search\QueryEntry
     {
         if ($this->_fuzzyQuery) {
             /** \Maho\Search\Lucene\Search\Query\Preprocessing\Fuzzy */
-            // require_once 'Zend/Search/Lucene/Search/Query/Preprocessing/Fuzzy.php';
             $query = new \Maho\Search\Lucene\Search\Query\Preprocessing\Fuzzy($this->_term,
                                                                              $encoding,
                                                                              ($this->_field !== null)?
@@ -119,7 +110,6 @@ class Term extends \Maho\Search\Lucene\Search\QueryEntry
         }
 
         /** \Maho\Search\Lucene\Search\Query\Preprocessing\Term */
-        // require_once 'Zend/Search/Lucene/Search/Query/Preprocessing/Term.php';
         $query = new \Maho\Search\Lucene\Search\Query\Preprocessing\Term($this->_term,
                                                                         $encoding,
                                                                         ($this->_field !== null)?

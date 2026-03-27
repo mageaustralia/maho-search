@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Analysis\TokenFilter;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,16 +16,12 @@ namespace Maho\Search\Lucene\Analysis\TokenFilter;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Analysis
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** \Maho\Search\Lucene\Analysis\TokenFilter */
-// require_once 'Zend/Search/Lucene/Analysis/TokenFilter.php';
 
 /**
  * Token filter that removes stop words. These words must be provided as array (set), example:
@@ -34,11 +29,9 @@ namespace Maho\Search\Lucene\Analysis\TokenFilter;
  *
  * We do recommend to provide all words in lowercase and concatenate this class after the lowercase filter.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Analysis
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
 class StopWords extends \Maho\Search\Lucene\Analysis\TokenFilter
@@ -83,12 +76,10 @@ class StopWords extends \Maho\Search\Lucene\Analysis\TokenFilter
      */
     public function loadFromFile($filepath = null) {
         if (! $filepath || ! file_exists($filepath)) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('You have to provide valid file path');
         }
         $fd = fopen($filepath, "r");
         if (! $fd) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Cannot open file ' . $filepath);
         }
         while (!feof ($fd)) {
@@ -98,7 +89,6 @@ class StopWords extends \Maho\Search\Lucene\Analysis\TokenFilter
             }
         }
         if (!fclose($fd)) {
-            // require_once 'Zend/Search/Lucene/Exception.php';
             throw new \Maho\Search\Lucene\Exception('Cannot close file ' . $filepath);
         }
     }

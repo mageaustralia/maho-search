@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Maho\Search\Lucene\Analysis;
 
 /**
- * Zend Framework
  *
  * LICENSE
  *
@@ -17,40 +16,29 @@ namespace Maho\Search\Lucene\Analysis;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Analysis
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 /** User land classes and interfaces turned on by Zend/Search/Analyzer.php file inclusion. */
 /** @todo Section should be removed with ZF 2.0 release as obsolete                      */
 if (!defined('ZEND_SEARCH_LUCENE_COMMON_ANALYZER_PROCESSED')) {
     /** \Maho\Search\Lucene\Analysis\Analyzer\Common\Utf8 */
-    // require_once 'Zend/Search/Lucene/Analysis/Analyzer/Common/Utf8.php';
 
     /** \Maho\Search\Lucene\Analysis\Analyzer\Common\Utf8\CaseInsensitive */
-    // require_once 'Zend/Search/Lucene/Analysis/Analyzer/Common/Utf8/CaseInsensitive.php';
 
     /** \Maho\Search\Lucene\Analysis\Analyzer\Common\Utf8Num */
-    // require_once 'Zend/Search/Lucene/Analysis/Analyzer/Common/Utf8Num.php';
 
     /** \Maho\Search\Lucene\Analysis\Analyzer\Common\Utf8Num\CaseInsensitive */
-    // require_once 'Zend/Search/Lucene/Analysis/Analyzer/Common/Utf8Num/CaseInsensitive.php';
 
     /** \Maho\Search\Lucene\Analysis\Analyzer\Common\Text */
-    // require_once 'Zend/Search/Lucene/Analysis/Analyzer/Common/Text.php';
 
     /** \Maho\Search\Lucene\Analysis\Analyzer\Common\Text\CaseInsensitive */
-    // require_once 'Zend/Search/Lucene/Analysis/Analyzer/Common/Text/CaseInsensitive.php';
 
     /** \Maho\Search\Lucene\Analysis\Analyzer\Common\TextNum */
-    // require_once 'Zend/Search/Lucene/Analysis/Analyzer/Common/TextNum.php';
 
     /** \Maho\Search\Lucene\Analysis\Analyzer\Common\TextNum\CaseInsensitive */
-    // require_once 'Zend/Search/Lucene/Analysis/Analyzer/Common/TextNum/CaseInsensitive.php';
 }
 
 /**
@@ -63,11 +51,9 @@ if (!defined('ZEND_SEARCH_LUCENE_COMMON_ANALYZER_PROCESSED')) {
  * But engine itself is not oriented such documents.
  * Thus \Maho\Search\Lucene\Lucene analysis API works with data strings and sets (arrays).
  *
- * @category   Zend
- * @package    \Maho\Search\Lucene\Lucene
+ * @category   Maho
+ * @package    Maho_Search_Lucene
  * @subpackage Analysis
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
 abstract class Analyzer
@@ -161,7 +147,6 @@ abstract class Analyzer
     public static function getDefault()
     {
         /** \Maho\Search\Lucene\Analysis\Analyzer\Common\Text\CaseInsensitive */
-        // require_once 'Zend/Search/Lucene/Analysis/Analyzer/Common/Text/CaseInsensitive.php';
 
         if (!self::$_defaultImpl instanceof \Maho\Search\Lucene\Analysis\Analyzer) {
             self::$_defaultImpl = new \Maho\Search\Lucene\Analysis\Analyzer\Common\Text\CaseInsensitive();
