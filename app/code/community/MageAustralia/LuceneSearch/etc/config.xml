@@ -76,6 +76,14 @@
                     </lucenesearch_cms_delete>
                 </observers>
             </cms_page_delete_before>
+            <api_store_config_dto_build>
+                <observers>
+                    <lucenesearch_store_config>
+                        <class>MageAustralia_LuceneSearch_Model_Observer</class>
+                        <method>onStoreConfigBuild</method>
+                    </lucenesearch_store_config>
+                </observers>
+            </api_store_config_dto_build>
         </events>
     </global>
 

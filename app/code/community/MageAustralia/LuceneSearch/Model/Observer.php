@@ -132,6 +132,45 @@ class MageAustralia_LuceneSearch_Model_Observer
     }
 
     /**
+     * Inject search config into the StoreConfig API response.
+     * The storefront reads this to configure the search backend.
+     */
+    public function onStoreConfigBuild(Varien_Event_Observer $observer): void
+    {
+        $dto = $observer->getEvent()->getDto();
+        if (!$dto || !property_exists($dto, 'extensions')) {
+            return;
+        }
+
+        $helper = $this->_getHelper();
+        $storeId = (int) Mage::app()->getStore()->getId();
+
+        $searchConfig = [
+            'backend' => 'lucene',
+            'enabled' => $helper->isEnabled($storeId),
+        ];
+
+        // If Meilisearch module is installed, include its config for direct browser queries
+        if (Mage::helper('core')->isModuleEnabled('Meilisearch_Search')) {
+            $msHost = Mage::getStoreConfig('maho_api/meilisearch/host', $storeId);
+            $msApiKey = Mage::getStoreConfig('maho_api/meilisearch/search_api_key', $storeId);
+            $msPrefix = Mage::getStoreConfig('maho_api/meilisearch/index_prefix', $storeId) ?: 'maho';
+            $storeCode = Mage::app()->getStore($storeId)->getCode();
+
+            if ($msHost) {
+                $searchConfig['backend'] = 'meilisearch';
+                $searchConfig['meilisearch'] = [
+                    'host' => $msHost,
+                    'apiKey' => $msApiKey ?: '',
+                    'indexPrefix' => $msPrefix . '_' . $storeCode,
+                ];
+            }
+        }
+
+        $dto->extensions['search'] = $searchConfig;
+    }
+
+    /**
      * Cron: optimize all store indexes (merge segments).
      */
     public function cronOptimize(): void

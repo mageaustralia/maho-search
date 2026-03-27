@@ -46,6 +46,12 @@ class MageAustralia_LuceneSearch_Model_Resource_CatalogSearch_Fulltext
             return parent::prepareResult($object, $queryText, $query);
         }
 
+        // Defer to Meilisearch if it's installed and configured
+        if (Mage::helper('core')->isModuleEnabled('Meilisearch_Search')
+            && Mage::getStoreConfigFlag('maho_api/meilisearch/enabled', $storeId)) {
+            return parent::prepareResult($object, $queryText, $query);
+        }
+
         try {
             $this->_foundData = $this->_luceneSearch($queryText, $storeId);
         } catch (\Throwable $e) {
