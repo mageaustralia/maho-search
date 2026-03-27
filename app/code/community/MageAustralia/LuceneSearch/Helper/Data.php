@@ -123,4 +123,27 @@ class MageAustralia_LuceneSearch_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfigFlag('lucenesearch/search/fuzzy_fallback', $storeId);
     }
+
+    /**
+     * Configure the default Lucene analyzer with stemmer and stop words.
+     * Must be called before any index operations.
+     */
+    public function initAnalyzer(): void
+    {
+        $analyzer = new \Maho\Search\Lucene\Analysis\Analyzer\Common\Utf8Num\CaseInsensitive();
+        $analyzer->addFilter(new \Maho\Search\Lucene\Analysis\TokenFilter\StopWords([
+            'a', 'an', 'the', 'and', 'or', 'but', 'in', 'on', 'at', 'to',
+            'for', 'of', 'with', 'by', 'is', 'are', 'was', 'were', 'be',
+            'been', 'being', 'have', 'has', 'had', 'do', 'does', 'did',
+            'will', 'would', 'could', 'should', 'may', 'might', 'shall',
+            'can', 'it', 'its', 'not', 'no', 'nor', 'so', 'if', 'then',
+            'than', 'that', 'this', 'these', 'those', 'from', 'into',
+            'about', 'up', 'out', 'off', 'over', 'under', 'again',
+            'further', 'once', 'here', 'there', 'when', 'where', 'why',
+            'how', 'all', 'each', 'every', 'both', 'few', 'more', 'most',
+            'other', 'some', 'such', 'only', 'own', 'same', 'just',
+        ]));
+        $analyzer->addFilter(new \Maho\Search\Lucene\Analysis\TokenFilter\PorterStemmer());
+        \Maho\Search\Lucene\Analysis\Analyzer::setDefault($analyzer);
+    }
 }

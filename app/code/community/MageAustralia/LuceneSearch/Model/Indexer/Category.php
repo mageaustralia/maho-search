@@ -37,15 +37,18 @@ class MageAustralia_LuceneSearch_Model_Indexer_Category
         $helper = $this->_getHelper();
         $index = $this->_getIndexer()->getIndex($storeCode);
 
+        $searchableAttributes = $helper->getCategorySearchableAttributes($storeId);
+
         $collection = Mage::getModel('catalog/category')->getCollection()
             ->setStoreId($storeId)
             ->addAttributeToFilter('is_active', 1)
             ->addAttributeToFilter('level', ['gt' => 1])
-            ->addAttributeToSelect('name')
-            ->addAttributeToSelect('description')
-            ->addAttributeToSelect('meta_keywords')
             ->addAttributeToSelect('url_key')
             ->addAttributeToSelect('url_path');
+
+        foreach ($searchableAttributes as $attr) {
+            $collection->addAttributeToSelect($attr);
+        }
 
         $count = 0;
         foreach ($collection as $category) {

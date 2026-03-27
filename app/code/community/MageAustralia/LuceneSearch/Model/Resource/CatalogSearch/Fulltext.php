@@ -12,8 +12,6 @@ declare(strict_types=1);
  */
 
 use Maho\Search\Lucene\Search\QueryParser;
-use Maho\Search\Lucene\Analysis\Analyzer;
-use Maho\Search\Lucene\Analysis\Analyzer\Common\Utf8Num\CaseInsensitive;
 
 /**
  * Rewrites CatalogSearch Fulltext resource model to use Lucene index
@@ -68,7 +66,7 @@ class MageAustralia_LuceneSearch_Model_Resource_CatalogSearch_Fulltext
         $store = Mage::app()->getStore($storeId);
         $storeCode = $store->getCode();
 
-        Analyzer::setDefault(new CaseInsensitive());
+        $helper->initAnalyzer();
 
         /** @var MageAustralia_LuceneSearch_Model_Indexer $indexer */
         $indexer = Mage::getModel('lucenesearch/indexer');

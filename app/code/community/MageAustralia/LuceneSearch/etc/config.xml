@@ -118,18 +118,22 @@
             </products>
             <categories>
                 <enabled>1</enabled>
-                <searchable_attributes>name,description,meta_keywords</searchable_attributes>
+                <searchable_attributes>name,description,meta_title,meta_keywords,meta_description</searchable_attributes>
                 <boost_name>3.0</boost_name>
-                <boost_description>1.0</boost_description>
-                <boost_meta_keywords>1.0</boost_meta_keywords>
+                <boost_description>1.5</boost_description>
+                <boost_meta_title>2.0</boost_meta_title>
+                <boost_meta_keywords>1.5</boost_meta_keywords>
+                <boost_meta_description>1.0</boost_meta_description>
             </categories>
             <cms>
                 <enabled>1</enabled>
-                <searchable_attributes>title,content,meta_keywords</searchable_attributes>
+                <searchable_attributes>title,content,content_heading,meta_keywords,meta_description</searchable_attributes>
                 <excluded_pages>no-route,enable-cookies</excluded_pages>
                 <boost_title>3.0</boost_title>
                 <boost_content>1.0</boost_content>
-                <boost_meta_keywords>1.0</boost_meta_keywords>
+                <boost_content_heading>2.5</boost_content_heading>
+                <boost_meta_keywords>1.5</boost_meta_keywords>
+                <boost_meta_description>1.0</boost_meta_description>
             </cms>
             <search>
                 <result_limit>500</result_limit>

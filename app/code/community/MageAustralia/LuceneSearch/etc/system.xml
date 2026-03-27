@@ -122,6 +122,15 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </enabled>
+                        <searchable_attributes translate="label comment">
+                            <label>Searchable Attributes</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Comma-separated attribute codes (e.g. name,description,meta_title,meta_keywords,meta_description)</comment>
+                        </searchable_attributes>
                         <boost_name translate="label">
                             <label>Name Boost</label>
                             <frontend_type>text</frontend_type>
@@ -130,6 +139,38 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </boost_name>
+                        <boost_description translate="label">
+                            <label>Description Boost</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </boost_description>
+                        <boost_meta_title translate="label">
+                            <label>Meta Title Boost</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </boost_meta_title>
+                        <boost_meta_keywords translate="label">
+                            <label>Meta Keywords Boost</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </boost_meta_keywords>
+                        <boost_meta_description translate="label">
+                            <label>Meta Description Boost</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </boost_meta_description>
                     </fields>
                 </categories>
 
@@ -149,6 +190,15 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </enabled>
+                        <searchable_attributes translate="label comment">
+                            <label>Searchable Attributes</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Comma-separated field names (e.g. title,content,content_heading,meta_keywords,meta_description)</comment>
+                        </searchable_attributes>
                         <excluded_pages translate="label comment">
                             <label>Excluded Pages</label>
                             <frontend_type>text</frontend_type>
@@ -166,6 +216,38 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </boost_title>
+                        <boost_content translate="label">
+                            <label>Content Boost</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </boost_content>
+                        <boost_content_heading translate="label">
+                            <label>Content Heading Boost</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </boost_content_heading>
+                        <boost_meta_keywords translate="label">
+                            <label>Meta Keywords Boost</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </boost_meta_keywords>
+                        <boost_meta_description translate="label">
+                            <label>Meta Description Boost</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </boost_meta_description>
                     </fields>
                 </cms>
 

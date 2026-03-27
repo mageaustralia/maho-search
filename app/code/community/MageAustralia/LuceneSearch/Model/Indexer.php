@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 use Maho\Search\Lucene\Lucene;
 use Maho\Search\Lucene\LuceneInterface;
-use Maho\Search\Lucene\Analysis\Analyzer;
-use Maho\Search\Lucene\Analysis\Analyzer\Common\Utf8Num\CaseInsensitive;
 
 /**
  * Core indexer — manages Lucene index lifecycle per store.
@@ -37,7 +35,7 @@ class MageAustralia_LuceneSearch_Model_Indexer
         if (!isset($this->_indexes[$storeCode])) {
             $path = $this->_getHelper()->getStoreIndexPath($storeCode);
 
-            Analyzer::setDefault(new CaseInsensitive());
+            $this->_getHelper()->initAnalyzer();
 
             if (is_dir($path) && file_exists($path . '/segments.gen')) {
                 $this->_indexes[$storeCode] = Lucene::open($path);
