@@ -11,6 +11,11 @@
             <lucenesearch>
                 <class>MageAustralia_LuceneSearch_Model</class>
             </lucenesearch>
+            <catalogsearch_resource>
+                <rewrite>
+                    <fulltext>MageAustralia_LuceneSearch_Model_Resource_CatalogSearch_Fulltext</fulltext>
+                </rewrite>
+            </catalogsearch_resource>
         </models>
         <helpers>
             <lucenesearch>
