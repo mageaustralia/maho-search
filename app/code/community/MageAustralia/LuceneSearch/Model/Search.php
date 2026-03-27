@@ -145,12 +145,16 @@ class MageAustralia_LuceneSearch_Model_Search
         }
 
         // Sanitize user query (strip special Lucene characters)
-        $escapedQuery = $this->_sanitizeQuery($queryString);
+        $sanitized = $this->_sanitizeQuery($queryString);
 
-        // 1. Try AND mode (all terms must match)
+        // Expand with synonyms for OR/fuzzy fallback
+        $synonymFilter = $helper->getSynonymFilter();
+        $synonymExpanded = $synonymFilter->expandQuery($sanitized);
+
+        // 1. Try AND mode with original terms (all must match)
         try {
             QueryParser::setDefaultOperator(QueryParser::B_AND);
-            $query = QueryParser::parse($escapedQuery);
+            $query = QueryParser::parse($sanitized);
             $hits = $index->find($query);
             if (!empty($hits)) {
                 return $hits;
@@ -159,10 +163,10 @@ class MageAustralia_LuceneSearch_Model_Search
             // Fall through to OR mode
         }
 
-        // 2. Try OR mode (any term matches)
+        // 2. Try OR mode with synonym-expanded query
         try {
             QueryParser::setDefaultOperator(QueryParser::B_OR);
-            $query = QueryParser::parse($escapedQuery);
+            $query = QueryParser::parse($synonymExpanded);
             $hits = $index->find($query);
             if (!empty($hits)) {
                 return $hits;
@@ -171,10 +175,10 @@ class MageAustralia_LuceneSearch_Model_Search
             // Fall through to fuzzy
         }
 
-        // 3. Try fuzzy search
+        // 3. Try fuzzy search with synonym-expanded terms
         if ($helper->isFuzzyFallbackEnabled($storeId)) {
             try {
-                $terms = preg_split('/\s+/', $escapedQuery);
+                $terms = preg_split('/\s+/', $synonymExpanded);
                 $fuzzyQuery = implode(' ', array_map(fn($t) => $t . '~', $terms));
                 QueryParser::setDefaultOperator(QueryParser::B_OR);
                 $query = QueryParser::parse($fuzzyQuery);

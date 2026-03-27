@@ -125,12 +125,13 @@ class MageAustralia_LuceneSearch_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Configure the default Lucene analyzer with stemmer and stop words.
+     * Configure the default Lucene analyzer with stemmer, stop words, and ASCII folding.
      * Must be called before any index operations.
      */
     public function initAnalyzer(): void
     {
         $analyzer = new \Maho\Search\Lucene\Analysis\Analyzer\Common\Utf8Num\CaseInsensitive();
+        $analyzer->addFilter(new \Maho\Search\Lucene\Analysis\TokenFilter\AsciiFolding());
         $analyzer->addFilter(new \Maho\Search\Lucene\Analysis\TokenFilter\StopWords([
             'a', 'an', 'the', 'and', 'or', 'but', 'in', 'on', 'at', 'to',
             'for', 'of', 'with', 'by', 'is', 'are', 'was', 'were', 'be',
@@ -145,5 +146,59 @@ class MageAustralia_LuceneSearch_Helper_Data extends Mage_Core_Helper_Abstract
         ]));
         $analyzer->addFilter(new \Maho\Search\Lucene\Analysis\TokenFilter\PorterStemmer());
         \Maho\Search\Lucene\Analysis\Analyzer::setDefault($analyzer);
+    }
+
+    /**
+     * Get the synonym expander instance with configured synonym groups.
+     */
+    public function getSynonymFilter(): \Maho\Search\Lucene\Analysis\TokenFilter\Synonym
+    {
+        $synonyms = new \Maho\Search\Lucene\Analysis\TokenFilter\Synonym($this->getSynonymGroups());
+
+        // Load from file if configured
+        $synonymFile = Mage::getStoreConfig('lucenesearch/search/synonym_file');
+        if ($synonymFile) {
+            $filePath = Mage::getBaseDir() . DS . $synonymFile;
+            if (file_exists($filePath)) {
+                $synonyms->loadFromFile($filePath);
+            }
+        }
+
+        return $synonyms;
+    }
+
+    /**
+     * Get synonym groups from config.
+     * Format in config: one group per line, comma-separated terms.
+     */
+    public function getSynonymGroups(): array
+    {
+        $config = Mage::getStoreConfig('lucenesearch/search/synonyms');
+        if (!$config) {
+            return [];
+        }
+
+        $groups = [];
+        $lines = preg_split('/\r?\n/', trim($config));
+        foreach ($lines as $line) {
+            $line = trim($line);
+            if ($line === '' || $line[0] === '#') {
+                continue;
+            }
+            $group = array_filter(array_map('trim', explode(',', $line)));
+            if (count($group) >= 2) {
+                $groups[] = $group;
+            }
+        }
+
+        return $groups;
+    }
+
+    /**
+     * Get the edge n-gram expander instance.
+     */
+    public function getEdgeNgramFilter(): \Maho\Search\Lucene\Analysis\TokenFilter\EdgeNgram
+    {
+        return new \Maho\Search\Lucene\Analysis\TokenFilter\EdgeNgram(3, 15);
     }
 }

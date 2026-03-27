@@ -80,9 +80,13 @@ class MageAustralia_LuceneSearch_Model_Resource_CatalogSearch_Fulltext
             return [];
         }
 
+        // Expand with synonyms for OR/fuzzy
+        $synonymFilter = $helper->getSynonymFilter();
+        $synonymExpanded = $synonymFilter->expandQuery($sanitized);
+
         $results = [];
 
-        // 1. Try AND mode
+        // 1. Try AND mode with original terms
         try {
             QueryParser::setDefaultOperator(QueryParser::B_AND);
             $query = QueryParser::parse($sanitized);
@@ -103,10 +107,10 @@ class MageAustralia_LuceneSearch_Model_Resource_CatalogSearch_Fulltext
             // Fall through
         }
 
-        // 2. Try OR mode
+        // 2. Try OR mode with synonym expansion
         try {
             QueryParser::setDefaultOperator(QueryParser::B_OR);
-            $query = QueryParser::parse($sanitized);
+            $query = QueryParser::parse($synonymExpanded);
             $hits = $index->find($query);
 
             foreach ($hits as $hit) {
@@ -127,7 +131,7 @@ class MageAustralia_LuceneSearch_Model_Resource_CatalogSearch_Fulltext
         // 3. Try fuzzy
         if ($helper->isFuzzyFallbackEnabled($storeId)) {
             try {
-                $terms = preg_split('/\s+/', $sanitized);
+                $terms = preg_split('/\s+/', $synonymExpanded);
                 $fuzzyQuery = implode(' ', array_map(fn($t) => $t . '~', $terms));
                 QueryParser::setDefaultOperator(QueryParser::B_OR);
                 $query = QueryParser::parse($fuzzyQuery);

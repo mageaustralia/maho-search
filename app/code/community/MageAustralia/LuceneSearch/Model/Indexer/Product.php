@@ -139,6 +139,10 @@ class MageAustralia_LuceneSearch_Model_Indexer_Product
         $doc->addField(Field::unIndexed('small_image', (string) $product->getSmallImage()));
         $doc->addField(Field::unIndexed('thumbnail', (string) $product->getThumbnail()));
 
+        $synonymFilter = $helper->getSynonymFilter();
+        $ngramFilter = $helper->getEdgeNgramFilter();
+        $allSearchableText = [];
+
         // Index searchable attributes with boost
         foreach ($attributes as $attrCode) {
             $value = $this->_getAttributeValue($product, $attrCode);
@@ -146,9 +150,14 @@ class MageAustralia_LuceneSearch_Model_Indexer_Product
                 continue;
             }
 
-            $field = Field::unstored($attrCode, $value);
+            // Expand with synonyms for indexing
+            $expandedValue = $synonymFilter->expandForIndex($value);
+
+            $field = Field::unstored($attrCode, $expandedValue);
             $field->boost = $helper->getProductAttributeBoost($attrCode, $storeId);
             $doc->addField($field);
+
+            $allSearchableText[] = $value;
         }
 
         // Index category paths
@@ -158,7 +167,16 @@ class MageAustralia_LuceneSearch_Model_Indexer_Product
                 $field = Field::unstored('category_paths', $categoryPaths);
                 $field->boost = $helper->getProductCategoryPathsBoost($storeId);
                 $doc->addField($field);
+                $allSearchableText[] = $categoryPaths;
             }
+        }
+
+        // Edge n-gram field for prefix matching (e.g. "bath" matches "bathroom")
+        if (!empty($allSearchableText)) {
+            $ngramContent = $ngramFilter->expandForIndex(implode(' ', $allSearchableText));
+            $ngramField = Field::unstored('_ngrams', $ngramContent);
+            $ngramField->boost = 0.5; // Lower boost than exact matches
+            $doc->addField($ngramField);
         }
 
         return $doc;

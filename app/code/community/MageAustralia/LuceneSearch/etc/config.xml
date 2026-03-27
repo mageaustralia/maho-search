@@ -139,6 +139,7 @@
                 <result_limit>500</result_limit>
                 <suggest_limit>10</suggest_limit>
                 <fuzzy_fallback>1</fuzzy_fallback>
+                <synonyms></synonyms>
             </search>
         </lucenesearch>
     </default>

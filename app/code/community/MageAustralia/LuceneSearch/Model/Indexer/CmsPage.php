@@ -112,6 +112,10 @@ class MageAustralia_LuceneSearch_Model_Indexer_CmsPage
         $doc->addField(Field::unIndexed('title_stored', (string) $page->getTitle()));
         $doc->addField(Field::unIndexed('identifier', (string) $page->getIdentifier()));
 
+        $synonymFilter = $helper->getSynonymFilter();
+        $ngramFilter = $helper->getEdgeNgramFilter();
+        $allSearchableText = [];
+
         // Searchable fields
         $attributes = $helper->getCmsSearchableAttributes($storeId);
         foreach ($attributes as $attrCode) {
@@ -123,9 +127,19 @@ class MageAustralia_LuceneSearch_Model_Indexer_CmsPage
             // Strip HTML from content
             $value = strip_tags((string) $value);
 
-            $field = Field::unstored($attrCode, $value);
+            $expandedValue = $synonymFilter->expandForIndex($value);
+            $field = Field::unstored($attrCode, $expandedValue);
             $field->boost = $helper->getCmsAttributeBoost($attrCode, $storeId);
             $doc->addField($field);
+            $allSearchableText[] = $value;
+        }
+
+        // Edge n-gram field for prefix matching
+        if (!empty($allSearchableText)) {
+            $ngramContent = $ngramFilter->expandForIndex(implode(' ', $allSearchableText));
+            $ngramField = Field::unstored('_ngrams', $ngramContent);
+            $ngramField->boost = 0.5;
+            $doc->addField($ngramField);
         }
 
         return $doc;

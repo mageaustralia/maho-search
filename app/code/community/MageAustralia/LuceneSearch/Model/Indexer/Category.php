@@ -110,6 +110,10 @@ class MageAustralia_LuceneSearch_Model_Indexer_Category
         $urlKey = $category->getUrlPath() ?: $category->getUrlKey();
         $doc->addField(Field::unIndexed('url_key', (string) $urlKey));
 
+        $synonymFilter = $helper->getSynonymFilter();
+        $ngramFilter = $helper->getEdgeNgramFilter();
+        $allSearchableText = [];
+
         // Searchable fields
         $attributes = $helper->getCategorySearchableAttributes($storeId);
         foreach ($attributes as $attrCode) {
@@ -118,9 +122,19 @@ class MageAustralia_LuceneSearch_Model_Indexer_Category
                 continue;
             }
 
-            $field = Field::unstored($attrCode, $value);
+            $expandedValue = $synonymFilter->expandForIndex($value);
+            $field = Field::unstored($attrCode, $expandedValue);
             $field->boost = $helper->getCategoryAttributeBoost($attrCode, $storeId);
             $doc->addField($field);
+            $allSearchableText[] = $value;
+        }
+
+        // Edge n-gram field for prefix matching
+        if (!empty($allSearchableText)) {
+            $ngramContent = $ngramFilter->expandForIndex(implode(' ', $allSearchableText));
+            $ngramField = Field::unstored('_ngrams', $ngramContent);
+            $ngramField->boost = 0.5;
+            $doc->addField($ngramField);
         }
 
         return $doc;
