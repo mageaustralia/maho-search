@@ -1,0 +1,126 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * Maho Lucene Search
+ *
+ * @category   MageAustralia
+ * @package    MageAustralia_LuceneSearch
+ * @copyright  Copyright (c) 2026 Mage Australia Pty Ltd
+ * @license    https://opensource.org/licenses/AGPL-3.0
+ */
+
+class MageAustralia_LuceneSearch_Helper_Data extends Mage_Core_Helper_Abstract
+{
+    protected $_moduleName = 'MageAustralia_LuceneSearch';
+
+    public function isEnabled(?int $storeId = null): bool
+    {
+        return Mage::getStoreConfigFlag('lucenesearch/general/enabled', $storeId);
+    }
+
+    public function getIndexPath(?int $storeId = null): string
+    {
+        $basePath = Mage::getStoreConfig('lucenesearch/general/index_path', $storeId) ?: 'var/lucene';
+        return Mage::getBaseDir() . DS . $basePath;
+    }
+
+    public function getStoreIndexPath(string $storeCode): string
+    {
+        return $this->getIndexPath() . DS . $storeCode;
+    }
+
+    // Product config
+
+    public function isProductIndexEnabled(?int $storeId = null): bool
+    {
+        return $this->isEnabled($storeId)
+            && Mage::getStoreConfigFlag('lucenesearch/products/enabled', $storeId);
+    }
+
+    public function getProductSearchableAttributes(?int $storeId = null): array
+    {
+        $value = Mage::getStoreConfig('lucenesearch/products/searchable_attributes', $storeId);
+        return array_filter(array_map('trim', explode(',', (string) $value)));
+    }
+
+    public function getProductAttributeBoost(string $attributeCode, ?int $storeId = null): float
+    {
+        $value = Mage::getStoreConfig("lucenesearch/products/boost_{$attributeCode}", $storeId);
+        return $value !== null ? (float) $value : 1.0;
+    }
+
+    public function isProductCategoryPathsEnabled(?int $storeId = null): bool
+    {
+        return Mage::getStoreConfigFlag('lucenesearch/products/index_category_paths', $storeId);
+    }
+
+    public function getProductCategoryPathsBoost(?int $storeId = null): float
+    {
+        return (float) (Mage::getStoreConfig('lucenesearch/products/boost_category_paths', $storeId) ?: 1.0);
+    }
+
+    // Category config
+
+    public function isCategoryIndexEnabled(?int $storeId = null): bool
+    {
+        return $this->isEnabled($storeId)
+            && Mage::getStoreConfigFlag('lucenesearch/categories/enabled', $storeId);
+    }
+
+    public function getCategorySearchableAttributes(?int $storeId = null): array
+    {
+        $value = Mage::getStoreConfig('lucenesearch/categories/searchable_attributes', $storeId);
+        return array_filter(array_map('trim', explode(',', (string) $value)));
+    }
+
+    public function getCategoryAttributeBoost(string $attributeCode, ?int $storeId = null): float
+    {
+        $value = Mage::getStoreConfig("lucenesearch/categories/boost_{$attributeCode}", $storeId);
+        return $value !== null ? (float) $value : 1.0;
+    }
+
+    // CMS config
+
+    public function isCmsIndexEnabled(?int $storeId = null): bool
+    {
+        return $this->isEnabled($storeId)
+            && Mage::getStoreConfigFlag('lucenesearch/cms/enabled', $storeId);
+    }
+
+    public function getCmsSearchableAttributes(?int $storeId = null): array
+    {
+        $value = Mage::getStoreConfig('lucenesearch/cms/searchable_attributes', $storeId);
+        return array_filter(array_map('trim', explode(',', (string) $value)));
+    }
+
+    public function getCmsExcludedPages(?int $storeId = null): array
+    {
+        $value = Mage::getStoreConfig('lucenesearch/cms/excluded_pages', $storeId);
+        return array_filter(array_map('trim', explode(',', (string) $value)));
+    }
+
+    public function getCmsAttributeBoost(string $attributeCode, ?int $storeId = null): float
+    {
+        $value = Mage::getStoreConfig("lucenesearch/cms/boost_{$attributeCode}", $storeId);
+        return $value !== null ? (float) $value : 1.0;
+    }
+
+    // Search config
+
+    public function getResultLimit(?int $storeId = null): int
+    {
+        return (int) (Mage::getStoreConfig('lucenesearch/search/result_limit', $storeId) ?: 500);
+    }
+
+    public function getSuggestLimit(?int $storeId = null): int
+    {
+        return (int) (Mage::getStoreConfig('lucenesearch/search/suggest_limit', $storeId) ?: 10);
+    }
+
+    public function isFuzzyFallbackEnabled(?int $storeId = null): bool
+    {
+        return Mage::getStoreConfigFlag('lucenesearch/search/fuzzy_fallback', $storeId);
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "name": "mahocommerce/maho-search",
+    "description": "Pure PHP Lucene search engine for Maho. Zero external dependencies, file-based index, works on any shared hosting.",
+    "type": "library",
+    "license": "BSD-3-Clause",
+    "keywords": ["search", "lucene", "full-text", "maho", "php"],
+    "require": {
+        "php": ">=8.3",
+        "ext-ctype": "*",
+        "ext-dom": "*",
+        "ext-iconv": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Maho\\Search\\Lucene\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
