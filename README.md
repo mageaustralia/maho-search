@@ -72,28 +72,49 @@ Transparently replaces Maho's built-in MySQL fulltext search. All existing searc
 
 ### REST API
 
-JSON endpoint for headless storefronts:
+Registered as a proper API Platform resource at `/api/search/suggest`, with full support for store context (`X-Store-Code` header), caching, CORS, and authentication.
 
 ```
-GET /lucenesearch/search/suggest?q=shirt&limit=10&types=products,categories,cms
+GET /api/search/suggest?q=shirt&limit=10&types=products,categories,cms
 ```
 
-Response:
+Response (JSON-LD):
 ```json
 {
+  "@context": "/api/contexts/SearchResult",
+  "@id": "/api/search/suggest",
+  "@type": "SearchResult",
   "products": [
-    {"id": 123, "sku": "ABC-001", "name": "Cotton Shirt", "urlKey": "cotton-shirt", "price": 49.00, "finalPrice": 39.00, "thumbnailUrl": "https://..."}
+    {
+      "id": 404,
+      "sku": "msj006c",
+      "name": "Plaid Cotton Shirt",
+      "urlKey": "plaid-cotton-shirt",
+      "price": 160.00,
+      "finalPrice": 160.00,
+      "thumbnailUrl": "https://example.com/media/catalog/product/m/s/msj006t.webp",
+      "score": 1
+    }
   ],
-  "totalItems": 42,
+  "totalItems": 18,
   "categories": [
-    {"id": 15, "name": "Shirts", "urlKey": "men/shirts"}
+    {"id": 15, "name": "Shirts", "urlKey": "men/shirts", "score": 0.27}
   ],
   "cmsPages": [
-    {"id": 5, "title": "Size Guide", "identifier": "size-guide"}
+    {"id": 5, "title": "Size Guide", "identifier": "size-guide", "score": 0.15}
   ],
   "blogPosts": []
 }
 ```
+
+Parameters:
+| Parameter | Required | Default | Description |
+|-----------|----------|---------|-------------|
+| `q` | Yes | - | Search query (minimum 2 characters) |
+| `limit` | No | 10 | Max results per entity type |
+| `types` | No | all | Comma-separated: `products`, `categories`, `cms` |
+
+A legacy endpoint is also available at `/lucenesearch/search/suggest` for installations without the API Platform.
 
 ## Installation
 
@@ -210,9 +231,13 @@ maho-search/
 │   │   ├── config.xml                # Events, cron, route, model rewrite
 │   │   ├── system.xml                # Admin configuration UI
 │   │   └── adminhtml.xml             # ACL resource
+│   ├── Api/
+│   │   ├── Resource/SearchResult.php # API Platform resource (/api/search/suggest)
+│   │   └── State/Provider/
+│   │       └── SearchProvider.php    # API Platform state provider
 │   ├── Model/
 │   │   ├── Indexer.php               # Index lifecycle (create/optimize per store)
-│   │   ├── Indexer/Product.php       # Product document builder
+│   │   ├── Indexer/Product.php       # Product document builder (incl. child aggregation)
 │   │   ├── Indexer/Category.php      # Category document builder
 │   │   ├── Indexer/CmsPage.php       # CMS page document builder
 │   │   ├── Observer.php              # Incremental reindex on save/delete
@@ -220,7 +245,7 @@ maho-search/
 │   │   └── Resource/CatalogSearch/
 │   │       └── Fulltext.php          # CatalogSearch rewrite (drop-in replacement)
 │   ├── Helper/Data.php               # Config accessors, analyzer init
-│   └── controllers/SearchController.php  # JSON search API
+│   └── controllers/SearchController.php  # Legacy JSON search API (fallback)
 │
 ├── lib/MahoCLI/Commands/
 │   └── LuceneReindex.php             # CLI: ./maho lucene:reindex
