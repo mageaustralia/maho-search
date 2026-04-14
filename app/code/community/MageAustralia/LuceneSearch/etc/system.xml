@@ -285,6 +285,46 @@
                             <show_in_store>0</show_in_store>
                             <comment>When no exact results found, retry with fuzzy matching</comment>
                         </fuzzy_fallback>
+                        <similarity translate="label comment">
+                            <label>Scoring Algorithm</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>lucenesearch/system_config_source_similarity</source_model>
+                            <sort_order>32</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment><![CDATA[<b>TF-IDF</b> = classic Lucene scoring. <b>BM25</b> = saturating term frequency, used by Elasticsearch/Solr — generally better relevance for product search. <b>Reindex required after switching.</b>]]></comment>
+                        </similarity>
+                        <bm25_k1 translate="label comment">
+                            <label>BM25 k1 (TF saturation)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>33</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Default 1.2. Higher values make repeated terms count for more.</comment>
+                            <depends><similarity>bm25</similarity></depends>
+                        </bm25_k1>
+                        <bm25_b translate="label comment">
+                            <label>BM25 b (length normalization)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>34</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Default 0.75. 0 = no length penalty, 1 = full penalty for long fields.</comment>
+                            <depends><similarity>bm25</similarity></depends>
+                        </bm25_b>
+                        <bm25_avg_field_length translate="label comment">
+                            <label>BM25 Avg Field Length</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Approximate average tokens per indexed field. Default 10 (suits product names). Raise for description-heavy catalogs.</comment>
+                            <depends><similarity>bm25</similarity></depends>
+                        </bm25_avg_field_length>
                         <synonyms translate="label comment">
                             <label>Synonym Groups</label>
                             <frontend_type>textarea</frontend_type>

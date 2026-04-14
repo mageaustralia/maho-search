@@ -125,11 +125,43 @@ class MageAustralia_LuceneSearch_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Get the configured scoring algorithm: 'tfidf' (classic Lucene) or 'bm25'.
+     */
+    public function getSimilarityAlgorithm(?int $storeId = null): string
+    {
+        $value = Mage::getStoreConfig('lucenesearch/search/similarity', $storeId);
+        return $value === 'bm25' ? 'bm25' : 'tfidf';
+    }
+
+    /**
+     * Install the configured similarity implementation as the Lucene default.
+     * Called from initAnalyzer() so all index/search code paths get the same
+     * scorer. Switching between TF-IDF and BM25 requires a reindex because
+     * lengthNorm values stored in the index differ between algorithms.
+     */
+    public function initSimilarity(?int $storeId = null): void
+    {
+        if ($this->getSimilarityAlgorithm($storeId) === 'bm25') {
+            $k1 = (float) (Mage::getStoreConfig('lucenesearch/search/bm25_k1', $storeId) ?: 1.2);
+            $b = (float) (Mage::getStoreConfig('lucenesearch/search/bm25_b', $storeId) ?: 0.75);
+            $avgLen = (float) (Mage::getStoreConfig('lucenesearch/search/bm25_avg_field_length', $storeId) ?: 10.0);
+            \Maho\Search\Lucene\Search\Similarity::setDefault(
+                new \Maho\Search\Lucene\Search\Similarity\BM25Similarity($k1, $b, $avgLen)
+            );
+        } else {
+            \Maho\Search\Lucene\Search\Similarity::setDefault(
+                new \Maho\Search\Lucene\Search\Similarity\DefaultSimilarity()
+            );
+        }
+    }
+
+    /**
      * Configure the default Lucene analyzer with stemmer, stop words, and ASCII folding.
      * Must be called before any index operations.
      */
     public function initAnalyzer(): void
     {
+        $this->initSimilarity();
         $analyzer = new \Maho\Search\Lucene\Analysis\Analyzer\Common\Utf8Num\CaseInsensitive();
         $analyzer->addFilter(new \Maho\Search\Lucene\Analysis\TokenFilter\AsciiFolding());
         $analyzer->addFilter(new \Maho\Search\Lucene\Analysis\TokenFilter\StopWords([
