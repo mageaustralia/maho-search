@@ -2,7 +2,7 @@
     "name": "mahocommerce/maho-search",
     "description": "Pure PHP Lucene search engine for Maho. Zero external dependencies, file-based index, works on any shared hosting.",
     "type": "library",
-    "license": "BSD-3-Clause",
+    "license": ["BSD-3-Clause", "OSL-3.0"],
     "keywords": ["search", "lucene", "full-text", "maho", "php"],
     "require": {
         "php": ">=8.3",

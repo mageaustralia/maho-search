@@ -8,7 +8,7 @@ declare(strict_types=1);
  * @category   MageAustralia
  * @package    MageAustralia_LuceneSearch
  * @copyright  Copyright (c) 2026 Mage Australia Pty Ltd
- * @license    https://opensource.org/licenses/AGPL-3.0
+ * @license    https://opensource.org/licenses/osl-3.0.php
  */
 
 namespace MageAustralia\LuceneSearch\Api\State\Provider;
