@@ -22,6 +22,7 @@ class MageAustralia_LuceneSearch_SearchController extends Mage_Core_Controller_F
     /**
      * GET /lucenesearch/search/suggest?q=...&types=...&limit=...
      */
+    #[\Maho\Config\Route('/lucenesearch/search/suggest', name: 'lucenesearch.search.suggest')]
     public function suggestAction(): void
     {
         $helper = Mage::helper('lucenesearch');
@@ -61,10 +62,11 @@ class MageAustralia_LuceneSearch_SearchController extends Mage_Core_Controller_F
 
     private function _sendJson(array $data, int $httpCode = 200): void
     {
+        $storeBaseUrl = rtrim((string) Mage::getStoreConfig('web/unsecure/base_url'), '/');
         $this->getResponse()
             ->setHttpResponseCode($httpCode)
             ->setHeader('Content-Type', 'application/json', true)
-            ->setHeader('Access-Control-Allow-Origin', '*', true)
+            ->setHeader('Access-Control-Allow-Origin', $storeBaseUrl, true)
             ->setBody(json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
     }
 }

@@ -11,6 +11,8 @@ declare(strict_types=1);
  * @license    https://opensource.org/licenses/osl-3.0.php
  */
 
+use Maho\Event\Observer as MahoObserver;
+
 /**
  * Event observer — triggers incremental index updates on entity save/delete.
  */
@@ -26,7 +28,8 @@ class MageAustralia_LuceneSearch_Model_Observer
         return Mage::getModel('lucenesearch/indexer');
     }
 
-    public function onProductSave(Varien_Event_Observer $observer): void
+    #[\Maho\Config\Observer('catalog_product_save_after', id: 'lucenesearch_product_save')]
+    public function onProductSave(MahoObserver $observer): void
     {
         if (!$this->_getHelper()->isEnabled()) {
             return;
@@ -42,7 +45,8 @@ class MageAustralia_LuceneSearch_Model_Observer
         }
     }
 
-    public function onProductDelete(Varien_Event_Observer $observer): void
+    #[\Maho\Config\Observer('catalog_product_delete_before', id: 'lucenesearch_product_delete')]
+    public function onProductDelete(MahoObserver $observer): void
     {
         if (!$this->_getHelper()->isEnabled()) {
             return;
@@ -61,7 +65,8 @@ class MageAustralia_LuceneSearch_Model_Observer
         }
     }
 
-    public function onCategorySave(Varien_Event_Observer $observer): void
+    #[\Maho\Config\Observer('catalog_category_save_after', id: 'lucenesearch_category_save')]
+    public function onCategorySave(MahoObserver $observer): void
     {
         if (!$this->_getHelper()->isEnabled()) {
             return;
@@ -77,7 +82,8 @@ class MageAustralia_LuceneSearch_Model_Observer
         }
     }
 
-    public function onCategoryDelete(Varien_Event_Observer $observer): void
+    #[\Maho\Config\Observer('catalog_category_delete_before', id: 'lucenesearch_category_delete')]
+    public function onCategoryDelete(MahoObserver $observer): void
     {
         if (!$this->_getHelper()->isEnabled()) {
             return;
@@ -96,7 +102,8 @@ class MageAustralia_LuceneSearch_Model_Observer
         }
     }
 
-    public function onCmsPageSave(Varien_Event_Observer $observer): void
+    #[\Maho\Config\Observer('cms_page_save_after', id: 'lucenesearch_cms_save')]
+    public function onCmsPageSave(MahoObserver $observer): void
     {
         if (!$this->_getHelper()->isEnabled()) {
             return;
@@ -112,7 +119,8 @@ class MageAustralia_LuceneSearch_Model_Observer
         }
     }
 
-    public function onCmsPageDelete(Varien_Event_Observer $observer): void
+    #[\Maho\Config\Observer('cms_page_delete_before', id: 'lucenesearch_cms_delete')]
+    public function onCmsPageDelete(MahoObserver $observer): void
     {
         if (!$this->_getHelper()->isEnabled()) {
             return;
@@ -135,7 +143,8 @@ class MageAustralia_LuceneSearch_Model_Observer
      * Inject search config into the StoreConfig API response.
      * The storefront reads this to configure the search backend.
      */
-    public function onStoreConfigBuild(Varien_Event_Observer $observer): void
+    #[\Maho\Config\Observer('api_store_config_dto_build', id: 'lucenesearch_store_config')]
+    public function onStoreConfigBuild(MahoObserver $observer): void
     {
         $dto = $observer->getEvent()->getDto();
         if (!$dto || !property_exists($dto, 'extensions')) {
@@ -173,6 +182,7 @@ class MageAustralia_LuceneSearch_Model_Observer
     /**
      * Cron: optimize all store indexes (merge segments).
      */
+    #[\Maho\Config\CronJob('lucenesearch_optimize', schedule: '0 3 * * *')]
     public function cronOptimize(): void
     {
         if (!$this->_getHelper()->isEnabled()) {
