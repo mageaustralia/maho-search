@@ -61,6 +61,35 @@ Three-stage fallback chain for maximum recall:
 2. **OR mode** - Any term matches, with synonym expansion (broader results)
 3. **Fuzzy mode** - Approximate matching for typo tolerance (broadest)
 
+### Customer-Group Visibility (B2B)
+
+Products can be hidden from search results for specific customer groups (for
+wholesale, professional-only or country-restricted catalogues). During indexing
+the module dispatches a neutral `catalog_search_product_restrictions` event; any
+gating module (for example
+[maho-module-b2b-access](https://github.com/mageaustralia/maho-module-b2b-access))
+declares the customer groups a product must be hidden from, and those results
+are dropped for the current group at query time.
+
+Zero-config and zero-coupling: with no gating module installed the event has no
+listeners and nothing is filtered. A subscriber pushes integer group ids onto
+the event transport:
+
+```php
+#[\Maho\Config\Observer('catalog_search_product_restrictions')]
+public function restrict(\Maho\Event\Observer $observer): void
+{
+    $transport = $observer->getEvent()->getTransport();
+    $existing  = (array) $transport->getData('restricted_customer_group_ids');
+    $transport->setData(
+        'restricted_customer_group_ids',
+        array_values(array_unique(array_merge($existing, [1, 4]))),
+    );
+}
+```
+
+Reindex after changing which products are restricted. Guests are group 0.
+
 ### CatalogSearch Integration
 
 Transparently replaces Maho's built-in MySQL fulltext search. All existing search features continue to work:
