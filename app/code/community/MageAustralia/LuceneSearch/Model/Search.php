@@ -11,6 +11,7 @@ declare(strict_types=1);
  * @license    https://opensource.org/licenses/osl-3.0.php
  */
 
+use Maho\Search\Lucene\Document;
 use Maho\Search\Lucene\Search\QueryParser;
 
 /**
@@ -63,6 +64,11 @@ class MageAustralia_LuceneSearch_Model_Search
         $categories = [];
         $cmsPages = [];
 
+        // Customer group for B2B visibility filtering (guest = 0). Products a
+        // gating module restricted from this group are dropped before pagination
+        // so the counts stay correct.
+        $customerGroupId = (int) Mage::getSingleton('customer/session')->getCustomerGroupId();
+
         foreach ($hits as $hit) {
             try {
                 $doc = $hit->getDocument();
@@ -70,6 +76,10 @@ class MageAustralia_LuceneSearch_Model_Search
                 $entityId = (int) $doc->getFieldValue('_entity_id');
 
                 if (!in_array($type, $types, true)) {
+                    continue;
+                }
+
+                if ($type === 'product' && $this->_isHiddenForGroup($doc, $customerGroupId)) {
                     continue;
                 }
 
@@ -201,6 +211,20 @@ class MageAustralia_LuceneSearch_Model_Search
         $query = preg_replace('/[+\-!(){}\[\]^"~*?:\\\\\/&|]/', ' ', $query);
         // Collapse whitespace
         return trim(preg_replace('/\s+/', ' ', $query));
+    }
+
+    /**
+     * True when the document carries a restricted-groups list that includes the
+     * current customer group. Documents with no such field (the common case, and
+     * anything indexed without a gating module) are always visible.
+     */
+    private function _isHiddenForGroup(Document $doc, int $groupId): bool
+    {
+        if (!in_array('restricted_groups', $doc->getFieldNames(), true)) {
+            return false;
+        }
+        $csv = (string) $doc->getFieldValue('restricted_groups');
+        return $csv !== '' && str_contains($csv, ',' . $groupId . ',');
     }
 
     private function _emptyResult(): array

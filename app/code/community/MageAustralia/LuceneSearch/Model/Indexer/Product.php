@@ -136,6 +136,16 @@ class MageAustralia_LuceneSearch_Model_Indexer_Product
         $doc->addField(Field::keyword('_type', 'product'));
         $doc->addField(Field::keyword('_entity_id', (string) $product->getId()));
 
+        // Customer-group visibility restrictions. Any gating module (B2B access,
+        // group catalog, ...) can subscribe to catalog_search_product_restrictions
+        // and declare the customer groups this product must be hidden from. Stored
+        // (not indexed) as a comma-wrapped list so the query layer can exclude it
+        // by exact group id. Absent when nothing hides the product.
+        $restrictedGroups = $this->_getRestrictedGroups($product, $storeId);
+        if ($restrictedGroups !== []) {
+            $doc->addField(Field::unIndexed('restricted_groups', ',' . implode(',', $restrictedGroups) . ','));
+        }
+
         // Store product data as unindexed fields for retrieval
         // Use _stored suffix to avoid collision with searchable fields of same name
         $doc->addField(Field::unIndexed('sku_stored', (string) $product->getSku()));
@@ -268,6 +278,29 @@ class MageAustralia_LuceneSearch_Model_Indexer_Product
 
         // Deduplicate and join
         return implode(' ', array_unique($values));
+    }
+
+    /**
+     * Collect the customer-group ids this product must be hidden from, unioned
+     * across every subscriber of catalog_search_product_restrictions. Empty when
+     * no gating module is installed (the event simply has no listeners).
+     *
+     * @return list<int>
+     */
+    private function _getRestrictedGroups(Mage_Catalog_Model_Product $product, int $storeId): array
+    {
+        $transport = new \Maho\DataObject(['restricted_customer_group_ids' => []]);
+        Mage::dispatchEvent('catalog_search_product_restrictions', [
+            'product'   => $product,
+            'store_id'  => $storeId,
+            'transport' => $transport,
+        ]);
+
+        $ids = $transport->getData('restricted_customer_group_ids');
+        if (!is_array($ids) || $ids === []) {
+            return [];
+        }
+        return array_values(array_unique(array_map('intval', $ids)));
     }
 
     /**
